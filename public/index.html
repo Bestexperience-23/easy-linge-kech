@@ -3,28 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Easy Linge Kech — Assistant WhatsApp Riads & Hôtels</title>
+  <title>Easy Linge Kech — Plateforme Sécurisée Riads, Hôtels & Villas</title>
   <style>
-    /* RESET & BASE */
+    /* ========================================================
+       DESIGN SYSTEM 3D — EASY LINGE KECH (MAY BUSINESS SARL)
+       ======================================================== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f8fafc;
-      color: #1e293b;
-      line-height: 1.5;
+    
+    :root {
+      --primary: #047857;
+      --primary-dark: #065f46;
+      --primary-light: #10b981;
+      --gold: #d97706;
+      --gold-light: #fbbf24;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow-3d: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.9) inset, 0 8px 16px -4px rgba(4, 120, 87, 0.05);
+      --shadow-3d-hover: 0 30px 60px -20px rgba(4, 120, 87, 0.22), 0 0 0 1px rgba(255, 255, 255, 1) inset, 0 12px 24px -6px rgba(15, 23, 42, 0.08);
     }
 
-    /* CONTAINER & LAYOUT */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #f0fdf4 0%, #f8fafc 40%, #f1f5f9 100%);
+      color: var(--text-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 3D PERSPECTIVE WRAPPER */
+    .perspective-container {
+      perspective: 1200px;
+    }
+
+    /* HEADER */
     .app-header {
-      background: #ffffff;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+      padding: 14px 28px;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
+      box-shadow: 0 4px 20px -5px rgba(0,0,0,0.03);
     }
     .header-inner {
-      max-width: 1240px;
+      max-width: 1280px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -33,46 +61,168 @@
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
-    .brand-icon {
-      width: 40px;
-      height: 40px;
-      background: #059669;
+    .brand-icon-3d {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #059669 0%, #064e3b 100%);
       color: #ffffff;
-      border-radius: 10px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 22px;
+      box-shadow: 0 8px 16px -4px rgba(5, 150, 105, 0.4), inset 0 1px 1px rgba(255,255,255,0.4);
+      transform: translateY(-1px);
     }
     .brand-title {
-      font-size: 17px;
-      font-weight: 700;
+      font-size: 18px;
+      font-weight: 800;
       color: #0f172a;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      letter-spacing: -0.3px;
     }
-    .badge-pro {
-      background: #ecfdf5;
-      color: #047857;
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 12px;
-      border: 1px solid #a7f3d0;
-      font-weight: 600;
+    .badge-3d-gold {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      color: #92400e;
+      border: 1px solid #f59e0b;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-weight: 800;
+      box-shadow: 0 2px 6px rgba(245, 158, 11, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     .brand-sub {
       font-size: 12px;
       color: #64748b;
+      font-weight: 500;
+    }
+    .admin-pill-3d {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    }
+    .status-dot-pulse {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+    .btn-logout-3d {
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-logout-3d:hover {
+      background: #fca5a5;
+      transform: translateY(-1px);
     }
 
+    /* MAIN CONTAINER */
     .main-container {
-      max-width: 1240px;
+      max-width: 1280px;
       margin: 24px auto;
-      padding: 0 16px;
+      padding: 0 20px;
+    }
+
+    /* 3D TEXTILE SHOWCASE BANNER */
+    .showcase-3d-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 900px) {
+      .showcase-3d-grid { grid-template-columns: 1fr; }
+    }
+    .showcase-card-3d {
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 18px;
+      padding: 20px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: var(--shadow-3d);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform-style: preserve-3d;
+    }
+    .showcase-card-3d::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(5, 150, 105, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .showcase-card-3d:hover {
+      transform: translateY(-6px) rotateX(2deg);
+      box-shadow: var(--shadow-3d-hover);
+    }
+    .showcase-badge-3d {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .showcase-title-3d {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    .showcase-desc-3d {
+      font-size: 11px;
+      color: #64748b;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    .showcase-tags-3d {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .showcase-tag {
+      background: #f1f5f9;
+      color: #334155;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
     }
 
     /* KPI STATS CARDS */
@@ -82,75 +232,89 @@
       gap: 16px;
       margin-bottom: 24px;
     }
-    .kpi-card {
+    .kpi-card-3d {
       background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: var(--shadow-3d);
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .kpi-card-3d:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-3d-hover);
     }
     .kpi-title {
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 600;
+      letter-spacing: 0.6px;
+      font-weight: 700;
       color: #64748b;
     }
     .kpi-value {
-      font-size: 26px;
-      font-weight: 800;
+      font-size: 28px;
+      font-weight: 900;
       color: #0f172a;
       margin: 4px 0 2px 0;
+      letter-spacing: -0.5px;
     }
     .kpi-desc {
-      font-size: 12px;
+      font-size: 11px;
       color: #059669;
-      font-weight: 500;
+      font-weight: 600;
     }
-    .kpi-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: #f1f5f9;
+    .kpi-icon-3d {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 24px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06), inset 0 1px 1px rgba(255,255,255,0.8);
     }
 
-    /* 2 COLUMNS GRID */
+    /* 2 COLUMNS CONTENT GRID */
     .content-grid {
       display: grid;
-      grid-template-columns: 1fr 420px;
+      grid-template-columns: 1fr 430px;
       gap: 24px;
       align-items: start;
     }
-    @media (max-width: 950px) {
+    @media (max-width: 980px) {
       .content-grid { grid-template-columns: 1fr; }
     }
 
-    /* LEFT PANELS */
-    .card {
+    /* CARDS */
+    .card-3d {
       background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-3d);
+      position: relative;
+      transition: box-shadow 0.25s ease;
+    }
+    .card-3d:hover {
+      box-shadow: var(--shadow-3d-hover);
     }
     .card-header {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
     .card-title {
-      font-size: 16px;
-      font-weight: 700;
+      font-size: 17px;
+      font-weight: 800;
       color: #0f172a;
       display: flex;
       align-items: center;
       gap: 8px;
+      letter-spacing: -0.3px;
     }
     .card-sub {
       font-size: 12px;
@@ -162,132 +326,116 @@
     .form-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 14px;
     }
-    .form-group-full {
-      grid-column: 1 / -1;
-    }
+    .form-group-full { grid-column: 1 / -1; }
     label {
       display: block;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       color: #475569;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
     input, select {
       width: 100%;
-      padding: 9px 12px;
+      padding: 10px 14px;
       font-size: 13px;
       border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: 10px;
       outline: none;
-      transition: border-color 0.2s;
-      background: #ffffff;
+      transition: all 0.2s;
+      background: #f8fafc;
+      color: #0f172a;
     }
     input:focus, select:focus {
+      background: #ffffff;
       border-color: #059669;
-      box-shadow: 0 0 0 3px rgba(5,150,105,0.15);
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
     }
-    .btn-submit {
-      background: #059669;
+    .btn-submit-3d {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
       color: #ffffff;
       border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
+      padding: 12px 22px;
+      border-radius: 10px;
       font-size: 13px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s;
-      display: inline-flex;
+      box-shadow: 0 6px 16px -3px rgba(5, 150, 105, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      transition: all 0.2s;
+      display: flex;
       align-items: center;
       gap: 6px;
     }
-    .btn-submit:hover {
-      background: #047857;
+    .btn-submit-3d:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px -4px rgba(5, 150, 105, 0.5);
+    }
+    .btn-submit-3d:active {
+      transform: translateY(1px);
     }
 
     /* ORDERS TABLE */
     table {
       width: 100%;
       border-collapse: collapse;
+      text-align: left;
       font-size: 12px;
     }
     th {
       background: #f8fafc;
+      padding: 12px 14px;
+      font-weight: 700;
       color: #475569;
-      padding: 10px 12px;
-      text-align: left;
-      font-weight: 600;
-      border-bottom: 1px solid #e2e8f0;
-      text-transform: uppercase;
-      font-size: 11px;
-      letter-spacing: 0.5px;
+      border-bottom: 2px solid #e2e8f0;
+      white-space: nowrap;
     }
     td {
-      padding: 12px;
+      padding: 12px 14px;
       border-bottom: 1px solid #f1f5f9;
       vertical-align: middle;
     }
-    .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-weight: 600;
-      font-size: 11px;
-    }
-    .badge-confirmed { background: #dcfce7; color: #166534; }
-    .badge-pending { background: #fef3c7; color: #92400e; }
-    .badge-cancelled { background: #ffe4e6; color: #9f1239; }
-
-    /* RIGHT: CLIENT INFO BANNER */
-    .client-banner {
-      background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
-      color: #ffffff;
-      padding: 16px;
-      border-radius: 16px;
-      margin-bottom: 16px;
-      border: 1px solid #047857;
-    }
-    .client-badge {
-      display: inline-block;
-      background: rgba(16, 185, 129, 0.2);
-      color: #6ee7b7;
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 10px;
-      font-weight: 600;
+    tr:hover td {
+      background: #fbfdff;
     }
 
-    /* SMARTPHONE MOCKUP */
-    .smartphone {
+    /* RIGHT: 3D SMARTPHONE CHASSIS */
+    .smartphone-3d-wrapper {
+      perspective: 1000px;
+    }
+    .smartphone-3d {
       background: #0f172a;
-      border: 8px solid #1e293b;
-      border-radius: 36px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-      overflow: hidden;
-      width: 100%;
-      max-width: 380px;
-      margin: 0 auto;
+      border-radius: 38px;
+      padding: 12px;
+      box-shadow: 0 30px 60px -15px rgba(2, 44, 34, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.2) inset, 0 12px 24px -5px rgba(0,0,0,0.3);
+      border: 3px solid #334155;
+      transform: rotateY(-2deg) rotateX(2deg);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .smartphone-3d:hover {
+      transform: rotateY(0deg) rotateX(0deg) translateY(-4px);
     }
     .phone-top-bar {
-      height: 18px;
+      height: 22px;
       background: #0f172a;
       display: flex;
       justify-content: center;
       align-items: center;
     }
     .phone-notch {
-      width: 60px;
+      width: 70px;
       height: 5px;
       background: #334155;
       border-radius: 4px;
     }
     .wa-screen {
       background: #efeae2;
-      height: 540px;
+      border-radius: 26px;
+      overflow: hidden;
+      height: 560px;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
     .wa-header {
       background: #075e54;
@@ -296,10 +444,11 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
     .wa-avatar {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: #042f2e;
       color: #a7f3d0;
@@ -308,6 +457,7 @@
       justify-content: center;
       font-weight: bold;
       font-size: 13px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     .wa-chat-area {
       flex: 1;
@@ -324,9 +474,10 @@
       padding: 10px 12px;
       border-radius: 12px;
       border-top-left-radius: 2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
       max-width: 88%;
       color: #1e293b;
+      line-height: 1.45;
     }
     .wa-bubble-out {
       align-self: flex-end;
@@ -334,9 +485,10 @@
       padding: 8px 12px;
       border-radius: 12px;
       border-top-right-radius: 2px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
-      max-width: 80%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+      max-width: 82%;
       color: #1e293b;
+      line-height: 1.45;
     }
     .wa-btn {
       display: block;
@@ -344,15 +496,18 @@
       background: #f0fdf4;
       border: 1px solid #bbf7d0;
       color: #15803d;
-      padding: 6px;
-      border-radius: 6px;
+      padding: 7px;
+      border-radius: 8px;
       font-weight: 700;
       font-size: 11px;
-      margin-top: 4px;
+      margin-top: 5px;
       cursor: pointer;
       text-align: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      transition: all 0.15s;
     }
-    .wa-btn:hover { background: #dcfce7; }
+    .wa-btn:hover { background: #dcfce7; transform: translateY(-1px); }
+    .wa-btn:active { transform: translateY(1px); }
     .wa-input-bar {
       background: #f0f2f5;
       padding: 8px 10px;
@@ -366,13 +521,13 @@
       background: #ffffff;
       border: 1px solid #cbd5e1;
       border-radius: 20px;
-      padding: 8px 12px;
+      padding: 8px 14px;
       font-size: 12px;
       outline: none;
     }
     .wa-send-btn {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: #059669;
       color: #ffffff;
@@ -382,70 +537,299 @@
       align-items: center;
       justify-content: center;
       font-size: 14px;
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.4);
+      transition: transform 0.15s;
+    }
+    .wa-send-btn:hover { transform: scale(1.05); }
+
+    /* ========================================================
+       MODAL 3D D'AUTHENTIFICATION SÉCURISÉE (ADMIN PORTAL)
+       ======================================================== */
+    #auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .auth-card-3d {
+      background: #ffffff;
+      border-radius: 24px;
+      max-width: 440px;
+      width: 100%;
+      padding: 36px 32px;
+      box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+      position: relative;
+      text-align: center;
+      transform: perspective(800px) rotateX(1deg);
+      animation: modalEnter 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes modalEnter {
+      from { opacity: 0; transform: perspective(800px) translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: perspective(800px) translateY(0) scale(1); }
+    }
+    .auth-lock-3d {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #059669 0%, #064e3b 100%);
+      color: white;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 12px 24px -6px rgba(5, 150, 105, 0.5), inset 0 2px 2px rgba(255,255,255,0.4);
+    }
+    .auth-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+    .auth-sub {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+      margin-bottom: 22px;
+    }
+    .auth-input-group {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+    .auth-input-group label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .auth-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      background: #f8fafc;
+      transition: all 0.2s;
+    }
+    .auth-input:focus {
+      background: #ffffff;
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
+    }
+    .auth-btn-3d {
+      width: 100%;
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: white;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 8px 20px -4px rgba(5, 150, 105, 0.5);
+      transition: all 0.2s;
+    }
+    .auth-btn-3d:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -4px rgba(5, 150, 105, 0.6);
+    }
+    .auth-btn-3d:active { transform: translateY(1px); }
+    .auth-hint {
+      margin-top: 18px;
+      background: #f1f5f9;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      color: #475569;
+      border: 1px dashed #cbd5e1;
+    }
+    .auth-hint code {
+      background: #ffffff;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 700;
+      color: #047857;
+      border: 1px solid #e2e8f0;
+    }
+    .auth-error {
+      color: #dc2626;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    /* PRINT STYLES */
+    @media print {
+      body { background: white !important; }
+      .app-header, .kpi-grid, .content-grid, .showcase-3d-grid, #auth-overlay, .no-print { display: none !important; }
+      #invoice-modal {
+        display: block !important;
+        position: static !important;
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      #printable-invoice {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- PORTAIL D'AUTHENTIFICATION SÉCURISÉE (ADMIN OVERLAY) -->
+  <div id="auth-overlay">
+    <div class="auth-card-3d">
+      <div class="auth-lock-3d">🛡️</div>
+      <div class="auth-title">Connexion Administrateur</div>
+      <div class="auth-sub">Portail de gestion Easy Linge Kech & IA WhatsApp</div>
+      
+      <div id="auth-error-msg" class="auth-error">Identifiants incorrects</div>
+
+      <form id="auth-form" onsubmit="handleLogin(event)">
+        <div class="auth-input-group">
+          <label>Identifiant Administrateur</label>
+          <input type="text" id="auth-username" class="auth-input" required autocomplete="username" placeholder="ex: hichamadmin267" value="hichamadmin267" />
+        </div>
+
+        <div class="auth-input-group">
+          <label>Mot de passe</label>
+          <input type="password" id="auth-password" class="auth-input" required autocomplete="current-password" placeholder="••••••••" value="admin2671" />
+        </div>
+
+        <button type="submit" id="auth-submit-btn" class="auth-btn-3d">
+          Accéder à la plateforme 🔐
+        </button>
+      </form>
+
+      <div class="auth-hint">
+        🔒 Accès sécurisé : <code>hichamadmin267</code> / <code>admin2671</code>
+      </div>
+    </div>
+  </div>
+
   <!-- HEADER -->
   <header class="app-header">
     <div class="header-inner">
       <div class="brand-group">
-        <div class="brand-icon">🏨</div>
+        <div class="brand-icon-3d">🏨</div>
         <div>
           <div class="brand-title">
-            Easy Linge Kech <span class="badge-pro">Catalogue 2026</span>
+            Easy Linge Kech <span class="badge-3d-gold">Catalogue 2026</span>
           </div>
-          <div class="brand-sub">Assistant WhatsApp IA pour Riads, Hôtels & Maisons d'hôtes (Marrakech)</div>
+          <div class="brand-sub">May Business SARL Kech — Linge Hôtelier & Literie Pro (Marrakech)</div>
         </div>
       </div>
-      <div style="text-align: right; font-size: 12px;">
-        <div style="font-weight: 600; color: #0f172a;">May Business SARL Kech</div>
-        <div style="color: #059669;">🌐 ezzilinge.ma • WhatsApp Officiel</div>
+      
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <div class="admin-pill-3d">
+          <span class="status-dot-pulse"></span>
+          <span>Connecté : <b style="color: #047857;">Hicham (Admin)</b></span>
+          <button onclick="handleLogout()" class="btn-logout-3d" title="Fermer la session">Déconnexion</button>
+        </div>
+        <div style="text-align: right; font-size: 11px; display: none;" id="header-contact-info">
+          <div style="font-weight: 700; color: #0f172a;">May Business SARL</div>
+          <div style="color: #059669; font-weight: 600;">🌐 ezzilinge.ma</div>
+        </div>
       </div>
     </div>
   </header>
 
   <div class="main-container">
 
+    <!-- 3D TEXTILE SHOWCASE BANNER -->
+    <div class="showcase-3d-grid">
+      <div class="showcase-card-3d">
+        <div>
+          <span class="showcase-badge-3d" style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;">🛏️ Literie 5 Étoiles</span>
+          <div class="showcase-title-3d">Surmatelas 10cm Nuage & Couettes</div>
+          <p class="showcase-desc-3d">Effet d'accueil moelleux incomparable pour riads & palaces. Fibres creuses siliconées traitées anti-acariens.</p>
+        </div>
+        <div class="showcase-tags-3d">
+          <span class="showcase-tag">180x200cm King</span>
+          <span class="showcase-tag">160x200cm Queen</span>
+          <span class="showcase-tag">Couettes 400g/m²</span>
+        </div>
+      </div>
+
+      <div class="showcase-card-3d">
+        <div>
+          <span class="showcase-badge-3d" style="background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe;">🧖 Bain & Spa Riad</span>
+          <div class="showcase-title-3d">Peignoirs Velours & Éponge 700g</div>
+          <p class="showcase-desc-3d">Col châle, coupe généreuse, bouclette double face ou nid d'abeille. Confort thermique et absorption instantanée.</p>
+        </div>
+        <div class="showcase-tags-3d">
+          <span class="showcase-tag">Peignoirs Col Châle</span>
+          <span class="showcase-tag">Draps de Bain 100x150</span>
+          <span class="showcase-tag">Tapis 1000g/m²</span>
+        </div>
+      </div>
+
+      <div class="showcase-card-3d">
+        <div>
+          <span class="showcase-badge-3d" style="background: #fef3c7; color: #b45309; border: 1px solid #fde68a;">🌿 Draps Blanchisserie Pro</span>
+          <div class="showcase-title-3d">Polycoton 70/30 & Satin Coton</div>
+          <p class="showcase-desc-3d">Résistance testée à plus de 100 lavages industriels à 90°C. Repassage facile sans rétrécissement.</p>
+        </div>
+        <div class="showcase-tags-3d">
+          <span class="showcase-tag">Draps Plats 280x300</span>
+          <span class="showcase-tag">Draps-Housses Bonnet 30cm</span>
+          <span class="showcase-tag">Taies 50x70 / 60x60</span>
+        </div>
+      </div>
+    </div>
+
     <!-- KPI STATS -->
     <div class="kpi-grid">
-      <div class="kpi-card">
+      <div class="kpi-card-3d">
         <div>
           <div class="kpi-title">Total Commandes</div>
           <div id="stat-total" class="kpi-value">0</div>
-          <div class="kpi-desc">Riads & Hôtels</div>
+          <div class="kpi-desc">Riads, Hôtels & Villas</div>
         </div>
-        <div class="kpi-icon">📦</div>
+        <div class="kpi-icon-3d">📦</div>
       </div>
 
-      <div class="kpi-card">
+      <div class="kpi-card-3d">
         <div>
           <div class="kpi-title">Taux de Confirmation</div>
           <div id="stat-rate" class="kpi-value" style="color: #059669;">0%</div>
-          <div class="kpi-desc">Confirmation directe</div>
+          <div class="kpi-desc">Confirmation WhatsApp auto</div>
         </div>
-        <div class="kpi-icon">✅</div>
+        <div class="kpi-icon-3d">⚡</div>
       </div>
 
-      <div class="kpi-card">
+      <div class="kpi-card-3d">
         <div>
-          <div class="kpi-title">Commandes Confirmées</div>
+          <div class="kpi-title">En Préparation Atelier</div>
           <div id="stat-confirmed" class="kpi-value">0</div>
-          <div class="kpi-desc">En préparation atelier</div>
+          <div class="kpi-desc">Confection & Emballage</div>
         </div>
-        <div class="kpi-icon">🚚</div>
+        <div class="kpi-icon-3d">🧵</div>
       </div>
 
-      <div class="kpi-card">
+      <div class="kpi-card-3d">
         <div>
           <div class="kpi-title">En attente / Annulées</div>
           <div class="kpi-value">
             <span id="stat-pending">0</span> / <span id="stat-cancelled" style="color: #e11d48;">0</span>
           </div>
-          <div class="kpi-desc" style="color: #64748b;">Suivi automatisé</div>
+          <div class="kpi-desc" style="color: #64748b;">Suivi Hicham IA</div>
         </div>
-        <div class="kpi-icon">⏳</div>
+        <div class="kpi-icon-3d">⏳</div>
       </div>
     </div>
 
@@ -456,32 +840,32 @@
       <div>
         
         <!-- COMMANDE SIMULATEUR -->
-        <div class="card">
+        <div class="card-3d">
           <div class="card-header">
             <h2 class="card-title">📝 Nouvelle Commande Linge Hôtelier</h2>
-            <p class="card-sub">Testez l'envoi d'une commande d'un riad ou hôtel pour déclencher la confirmation WhatsApp.</p>
+            <p class="card-sub">Simulez la commande d'un établissement pour déclencher la confirmation WhatsApp intelligente.</p>
           </div>
 
           <form id="order-form" class="form-grid">
             <div>
-              <label>Établissement & Contact</label>
+              <label>Nom de l'Établissement & Responsable</label>
               <input type="text" id="cust-name" required value="Riad Al Jazira (M. Karim)" />
             </div>
 
             <div>
-              <label>Téléphone WhatsApp</label>
+              <label>Numéro WhatsApp Client</label>
               <input type="text" id="cust-phone" required value="0661987654" />
             </div>
 
             <div>
-              <label>Ville</label>
+              <label>Ville & Délai</label>
               <select id="cust-city">
                 <option value="Marrakech">Marrakech (Livraison 24h directe riad)</option>
-                <option value="Casablanca">Casablanca</option>
-                <option value="Rabat">Rabat</option>
-                <option value="Agadir">Agadir</option>
-                <option value="Tanger">Tanger</option>
-                <option value="Fès">Fès</option>
+                <option value="Casablanca">Casablanca (24h - 48h)</option>
+                <option value="Rabat">Rabat (24h - 48h)</option>
+                <option value="Agadir">Agadir (48h)</option>
+                <option value="Tanger">Tanger (48h)</option>
+                <option value="Fès">Fès (48h)</option>
               </select>
             </div>
 
@@ -491,25 +875,33 @@
             </div>
 
             <div class="form-group-full">
-              <label>Adresse dans Marrakech / Maroc</label>
+              <label>Adresse complète dans Marrakech / Maroc</label>
               <input type="text" id="cust-address" required value="Derb Sidi Ahmed Soussi, Médina Marrakech" />
             </div>
 
             <div class="form-group-full" style="display: flex; justify-content: flex-end; margin-top: 8px;">
-              <button type="submit" class="btn-submit">
-                <span>💬</span> Envoyer Notification WhatsApp
+              <button type="submit" class="btn-submit-3d">
+                <span>💬</span> Déclencher Commande WhatsApp
               </button>
             </div>
           </form>
         </div>
 
         <!-- TABLEAU DES COMMANDES -->
-        <div class="card" style="padding: 0; overflow: hidden;">
-          <div style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
-            <div style="font-weight: 700; font-size: 13px;">Dernières Commandes Traitées</div>
-            <button onclick="loadData()" style="background: none; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer;">
-              🔄 Actualiser
-            </button>
+        <div class="card-3d" style="padding: 0; overflow: hidden;">
+          <div style="padding: 16px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; background: #ffffff;">
+            <div>
+              <div style="font-weight: 800; font-size: 14px; color: #0f172a;">Gestion des Commandes & Livraisons</div>
+              <div style="font-size: 11px; color: #64748b;">Mise à jour en temps réel synchronisée avec l'IA Hicham</div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button onclick="exportExcel()" style="background: linear-gradient(135deg, #059669 0%, #047857 100%); color: white; border: none; padding: 7px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 4px 10px rgba(5,150,105,0.3);">
+                📥 Exporter Excel (.xlsx)
+              </button>
+              <button onclick="loadData()" style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer;">
+                🔄 Actualiser
+              </button>
+            </div>
           </div>
           <div style="overflow-x: auto;">
             <table>
@@ -517,10 +909,12 @@
                 <tr>
                   <th>N° Commande</th>
                   <th>Établissement</th>
+                  <th>Articles Commandés</th>
                   <th>Ville</th>
                   <th>Adresse</th>
                   <th>Total HT</th>
-                  <th>Statut</th>
+                  <th>Statut Livraison</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="orders-tbody">
@@ -532,62 +926,64 @@
 
       </div>
 
-      <!-- RIGHT: SMARTPHONE WHATSAPP -->
+      <!-- RIGHT: SMARTPHONE WHATSAPP (3D CHASSIS) -->
       <div>
         
-        <div class="client-banner">
+        <div class="card-3d" style="padding: 18px; margin-bottom: 16px; background: linear-gradient(145deg, #047857 0%, #064e3b 100%); color: white;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <b style="font-size: 13px;">Easy Linge Kech</b>
-            <span class="client-badge">16 Familles de Linge</span>
+            <b style="font-size: 14px; font-weight: 800;">Assistant Virtuel Hicham</b>
+            <span style="background: rgba(255,255,255,0.2); font-size: 10px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">IA WhatsApp</span>
           </div>
-          <p style="font-size: 11px; opacity: 0.9; margin-bottom: 8px;">
-            Spécialiste literie & bain : Draps polycoton, couettes, surmatelas 10cm, peignoirs (velours, nid d'abeille, bouclette) et serviettes 500-700g/m².
+          <p style="font-size: 11px; opacity: 0.9; margin-bottom: 8px; line-height: 1.45;">
+            Hicham conseille les professionnels (Riads, Hôtels, Airbnb, Booking, Villas) et répond en direct sur les stocks, délais et suivi de commande.
           </p>
-          <div style="font-size: 11px; opacity: 0.75;">
-            📍 Médina, Guéliz, Palmeraie & tout le Maroc.
+          <div style="font-size: 10px; opacity: 0.8; display: flex; align-items: center; gap: 4px;">
+            📍 Médina, Guéliz, Hivernage, Palmeraie & tout le Maroc
           </div>
         </div>
 
-        <!-- SMARTPHONE -->
-        <div class="smartphone">
-          <div class="phone-top-bar">
-            <div class="phone-notch"></div>
-          </div>
-
-          <div class="wa-screen">
-            <!-- WA HEADER -->
-            <div class="wa-header">
-              <div class="wa-avatar">EL</div>
-              <div style="flex: 1;">
-                <div style="font-weight: 700; font-size: 12px; line-height: 1.2;">Easy Linge Kech</div>
-                <div style="font-size: 10px; opacity: 0.85;">Riads & Hôtels • Marrakech</div>
-              </div>
+        <!-- 3D SMARTPHONE -->
+        <div class="smartphone-3d-wrapper">
+          <div class="smartphone-3d">
+            <div class="phone-top-bar">
+              <div class="phone-notch"></div>
             </div>
 
-            <!-- WA CHAT AREA -->
-            <div id="wa-messages" class="wa-chat-area">
-              <div style="text-align: center; margin: 6px 0;">
-                <span style="background: #fef3c7; color: #92400e; font-size: 9px; padding: 2px 6px; border-radius: 4px;">
-                  🔒 Messages chiffrés de bout en bout
-                </span>
+            <div class="wa-screen">
+              <!-- WA HEADER -->
+              <div class="wa-header">
+                <div class="wa-avatar">EL</div>
+                <div style="flex: 1;">
+                  <div style="font-weight: 700; font-size: 12px; line-height: 1.2;">Easy Linge Kech</div>
+                  <div style="font-size: 10px; opacity: 0.85;">Hicham • Service Commercial Pro</div>
+                </div>
               </div>
-              <div class="wa-bubble-in">
-                Bonjour ! Bienvenue chez <b>Easy Linge Kech</b> 🌿<br/>
-                Nous fournissons les riads et hôtels de Marrakech en linge de lit et de bain haut de gamme.<br/>
-                <i>Posez votre question sur nos draps, peignoirs, surmatelas ou délais de livraison !</i>
-              </div>
-            </div>
 
-            <!-- WA INPUT -->
-            <div class="wa-input-bar">
-              <input 
-                type="text" 
-                id="wa-input" 
-                class="wa-input-field" 
-                placeholder="Écrivez en Français ou Darija..." 
-                onkeypress="if(event.key === 'Enter') sendCustomerMessage()"
-              />
-              <button onclick="sendCustomerMessage()" class="wa-send-btn">➤</button>
+              <!-- WA CHAT AREA -->
+              <div id="wa-messages" class="wa-chat-area">
+                <div style="text-align: center; margin: 6px 0;">
+                  <span style="background: #fef3c7; color: #92400e; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 600;">
+                    🔒 Canal officiel chiffré de bout en bout
+                  </span>
+                </div>
+                <div class="wa-bubble-in">
+                  Bonjour ! Je suis <b>Hicham</b> de chez <b>Easy Linge Kech</b> 🌿<br/>
+                  Nous équipons les riads, hôtels, hébergements Airbnb et villas en linge de lit et de bain haut de gamme.<br/><br/>
+                  <i>Comment puis-je vous accompagner pour vos approvisionnements aujourd'hui ?</i>
+                </div>
+              </div>
+
+              <!-- WA INPUT -->
+              <div class="wa-input-bar">
+                <input 
+                  type="text" 
+                  id="wa-input" 
+                  class="wa-input-field" 
+                  placeholder="Écrivez en Français ou Darija..." 
+                  onkeypress="if(event.key === 'Enter') sendCustomerMessage()"
+                />
+                <button onclick="sendCustomerMessage()" class="wa-send-btn">➤</button>
+              </div>
             </div>
           </div>
         </div>
@@ -598,10 +994,150 @@
 
   </div>
 
+  <!-- MODAL DEVIS / BON DE COMMANDE PROFORMA -->
+  <div id="invoice-modal" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.65); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div id="printable-invoice" style="background: white; border-radius: 18px; max-width: 680px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 32px; box-shadow: 0 30px 60px -15px rgba(0,0,0,0.3); position: relative;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #047857; padding-bottom: 14px; margin-bottom: 18px;">
+        <div>
+          <div style="font-size: 22px; font-weight: 800; color: #047857; letter-spacing: -0.5px;">EASY LINGE KECH</div>
+          <div style="font-size: 11px; color: #64748b; font-weight: 600;">May Business SARL Kech — Linge Hôtelier & Literie Professionnelle</div>
+          <div style="font-size: 10px; color: #94a3b8; margin-top: 3px;">Marrakech, Maroc | Tél: +212 6 61 00 00 00 | contact@ezzilinge.ma</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="display: inline-block; background: #ecfdf5; border: 1px solid #a7f3d0; color: #047857; font-weight: 800; padding: 4px 10px; border-radius: 6px; font-size: 12px;">BON DE COMMANDE / DEVIS</div>
+          <div id="inv-order-id" style="font-size: 13px; font-weight: 700; color: #1e293b; margin-top: 6px;">#ORD-...</div>
+          <div id="inv-date" style="font-size: 11px; color: #64748b;">Date: ...</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #f8fafc; padding: 14px; border-radius: 10px; margin-bottom: 18px; font-size: 12px; border: 1px solid #e2e8f0;">
+        <div>
+          <div style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #64748b; margin-bottom: 4px;">CLIENT / ÉTABLISSEMENT</div>
+          <div id="inv-customer-name" style="font-weight: 700; font-size: 14px; color: #0f172a;">—</div>
+          <div id="inv-property-type" style="font-size: 11px; color: #0369a1; font-weight: 600;">—</div>
+          <div id="inv-phones" style="margin-top: 4px; color: #475569; font-size: 11px;">—</div>
+        </div>
+        <div>
+          <div style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #64748b; margin-bottom: 4px;">LIVRAISON</div>
+          <div id="inv-city" style="font-weight: 700; color: #0f172a;">Marrakech</div>
+          <div id="inv-address" style="color: #475569; margin-top: 2px;">—</div>
+          <div style="font-size: 11px; color: #047857; font-weight: 600; margin-top: 4px;">🚚 Délai : Livraison express 24h</div>
+        </div>
+      </div>
+
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 12px;">
+        <thead>
+          <tr style="background: #f1f5f9; text-align: left; border-bottom: 2px solid #cbd5e1;">
+            <th style="padding: 8px 10px;">Désignation Produit</th>
+            <th style="padding: 8px 10px; text-align: center;">Quantité</th>
+            <th style="padding: 8px 10px; text-align: right;">Prix Unit. HT</th>
+            <th style="padding: 8px 10px; text-align: right;">Total HT</th>
+          </tr>
+        </thead>
+        <tbody id="inv-items-tbody"></tbody>
+      </table>
+
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+        <div style="width: 260px; font-size: 12px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <div style="display: flex; justify-content: space-between; padding: 3px 0; color: #475569;">
+            <span>Sous-Total HT :</span>
+            <span id="inv-subtotal" style="font-weight: 600;">0 MAD</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 3px 0; color: #475569;">
+            <span>TVA (20%) :</span>
+            <span id="inv-tva" style="font-weight: 600;">0 MAD</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 6px 0 2px 0; border-top: 2px solid #cbd5e1; font-size: 14px; font-weight: 800; color: #047857;">
+            <span>TOTAL TTC :</span>
+            <span id="inv-total-ttc">0 MAD</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid #e2e8f0; padding-top: 10px; font-size: 10px; color: #94a3b8; text-align: center; line-height: 1.5;">
+        Modalités : Paiement à la livraison (COD) - Échange sous 7 jours - Facture officielle émise par May Business SARL Kech (ICE: 003214589000045)
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; padding-top: 14px; border-top: 1px dashed #e2e8f0;" class="no-print">
+        <button onclick="closeInvoice()" style="background: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer;">
+          Fermer
+        </button>
+        <button onclick="window.print()" style="background: #047857; color: white; border: none; padding: 8px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+          🖨️ Imprimer / Sauvegarder PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const tenantId = 'tenant_maroc_demo_01';
     let currentCustomerPhone = '+212661987654';
+    let allOrders = [];
 
+    // ==========================================
+    // AUTHENTIFICATION & SÉCURITÉ ADMIN
+    // ==========================================
+    function checkAuth() {
+      const token = localStorage.getItem('easy_linge_auth_token');
+      const overlay = document.getElementById('auth-overlay');
+      if (token) {
+        overlay.style.display = 'none';
+      } else {
+        overlay.style.display = 'flex';
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const userField = document.getElementById('auth-username');
+      const passField = document.getElementById('auth-password');
+      const errorMsg = document.getElementById('auth-error-msg');
+      const submitBtn = document.getElementById('auth-submit-btn');
+
+      const username = userField.value.trim();
+      const password = passField.value.trim();
+
+      submitBtn.innerText = 'Vérification en cours...';
+      submitBtn.disabled = true;
+      errorMsg.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (data.success && data.token) {
+          localStorage.setItem('easy_linge_auth_token', data.token);
+          localStorage.setItem('easy_linge_auth_user', JSON.stringify(data.user));
+          document.getElementById('auth-overlay').style.display = 'none';
+          loadData();
+        } else {
+          errorMsg.innerText = data.error || 'Identifiants invalides';
+          errorMsg.style.display = 'block';
+        }
+      } catch (err) {
+        errorMsg.innerText = 'Erreur réseau ou serveur inaccessible';
+        errorMsg.style.display = 'block';
+      } finally {
+        submitBtn.innerText = 'Accéder à la plateforme 🔐';
+        submitBtn.disabled = false;
+      }
+    }
+
+    function handleLogout() {
+      if (confirm('Voulez-vous vraiment vous déconnecter de la plateforme ?')) {
+        localStorage.removeItem('easy_linge_auth_token');
+        localStorage.removeItem('easy_linge_auth_user');
+        checkAuth();
+      }
+    }
+
+    // ==========================================
+    // CHARGEMENT DES DONNÉES & KPI
+    // ==========================================
     async function loadData() {
       try {
         const analyticsRes = await fetch(`/api/analytics/${tenantId}`);
@@ -618,51 +1154,171 @@
         const ordersRes = await fetch(`/api/orders/${tenantId}`);
         const ordersData = await ordersRes.json();
         if (ordersData.success) {
-          renderOrders(ordersData.orders);
+          allOrders = ordersData.orders || [];
+          renderOrders(allOrders);
         }
       } catch (err) {
         console.error('Erreur chargement données:', err);
       }
     }
 
+    // ==========================================
+    // RENDU DES COMMANDES (8 COLONNES AVEC SELECT)
+    // ==========================================
     function renderOrders(orders) {
       const tbody = document.getElementById('orders-tbody');
       tbody.innerHTML = '';
 
       if (orders.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #94a3b8; padding: 24px;">Aucune commande pour le moment. Créez-en une à gauche !</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #94a3b8; padding: 24px;">Aucune commande pour le moment. Créez-en une à gauche !</td></tr>`;
         return;
       }
 
       orders.slice().reverse().forEach(o => {
-        let badgeClass = 'badge-pending';
-        let badgeLabel = 'En attente';
+        const orderIdDisplay = o.externalOrderId || o.id;
 
-        if (o.confirmationStatus === 'CONFIRMED') {
-          badgeClass = 'badge-confirmed';
-          badgeLabel = '✓ Confirmée';
-        } else if (o.confirmationStatus === 'CANCELLED') {
-          badgeClass = 'badge-cancelled';
-          badgeLabel = '✕ Annulée';
-        }
+        const itemsHtml = (o.items && o.items.length > 0)
+          ? o.items.map(it => `
+              <div style="margin-bottom: 3px; display: flex; align-items: center; gap: 4px;">
+                <span style="font-weight: 700; color: #047857; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 1px 5px; border-radius: 4px; font-size: 10px;">${it.quantity}x</span>
+                <span style="font-weight: 500;">${it.title}</span>
+              </div>
+            `).join('')
+          : '<span style="color: #94a3b8;">—</span>';
 
         tbody.innerHTML += `
           <tr>
-            <td style="font-weight: 700;">#${o.externalOrderId}</td>
+            <td style="font-weight: 700;">#${orderIdDisplay}</td>
             <td>
-              <div style="font-weight: 600;">${o.customerName}</div>
-              <div style="font-size: 10px; color: #94a3b8;">${o.customerPhone}</div>
+              <div style="font-weight: 600;">
+                ${o.customerName}
+                ${o.propertyType ? `<span style="font-size: 10px; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px; font-weight: 600; margin-left: 4px;">${o.propertyType}</span>` : ''}
+              </div>
+              <div style="font-size: 10px; color: #94a3b8;">📱 WA: ${o.customerPhone}</div>
+              ${o.contactPhone ? `<div style="font-size: 10px; color: #059669; font-weight: 600;">📞 2ème tél: ${o.contactPhone}</div>` : ''}
             </td>
+            <td style="font-size: 11px; max-width: 220px;">${itemsHtml}</td>
             <td>${o.city}</td>
             <td style="max-width: 180px; font-size: 11px; color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${o.address || ''}">${o.address || '—'}</td>
             <td style="font-weight: 700; color: #047857;">${o.totalPrice} MAD</td>
-            <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
+            <td>
+              <select onchange="changeStatus('${o.id}', this.value)" style="background: ${getStatusBg(o.confirmationStatus)}; color: ${getStatusColor(o.confirmationStatus)}; font-weight: 700; font-size: 11px; padding: 4px 8px; border-radius: 6px; border: 1px solid #cbd5e1; cursor: pointer; outline: none;">
+                <option value="PENDING" ${o.confirmationStatus === 'PENDING' ? 'selected' : ''}>⏳ En attente</option>
+                <option value="CONFIRMED" ${o.confirmationStatus === 'CONFIRMED' ? 'selected' : ''}>✓ Confirmée</option>
+                <option value="PREPARATION" ${o.confirmationStatus === 'PREPARATION' ? 'selected' : ''}>🧵 En préparation</option>
+                <option value="SHIPPED" ${o.confirmationStatus === 'SHIPPED' ? 'selected' : ''}>🚚 Expédiée</option>
+                <option value="DELIVERED" ${o.confirmationStatus === 'DELIVERED' ? 'selected' : ''}>📦 Livrée</option>
+                <option value="CANCELLED" ${o.confirmationStatus === 'CANCELLED' ? 'selected' : ''}>✕ Annulée</option>
+              </select>
+            </td>
+            <td>
+              <button onclick="openInvoice('${o.id}')" style="background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                📄 Devis
+              </button>
+            </td>
           </tr>
         `;
       });
     }
 
-    // SUBMIT NOUVELLE COMMANDE
+    async function changeStatus(orderId, newStatus) {
+      try {
+        const res = await fetch(`/api/orders/${tenantId}/${orderId}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: newStatus })
+        });
+        const data = await res.json();
+        if (data.success) {
+          loadData();
+        } else {
+          alert('Erreur: ' + (data.error || 'Impossible de mettre à jour le statut'));
+        }
+      } catch (err) {
+        console.error('Erreur changement statut:', err);
+      }
+    }
+
+    function getStatusBg(status) {
+      switch (status) {
+        case 'CONFIRMED': return '#ecfdf5';
+        case 'PREPARATION': return '#eff6ff';
+        case 'SHIPPED': return '#fef3c7';
+        case 'DELIVERED': return '#dcfce7';
+        case 'CANCELLED': return '#fef2f2';
+        default: return '#fffbeb';
+      }
+    }
+
+    function getStatusColor(status) {
+      switch (status) {
+        case 'CONFIRMED': return '#047857';
+        case 'PREPARATION': return '#1d4ed8';
+        case 'SHIPPED': return '#b45309';
+        case 'DELIVERED': return '#15803d';
+        case 'CANCELLED': return '#b91c1c';
+        default: return '#d97706';
+      }
+    }
+
+    function exportExcel() {
+      window.open(`/api/orders/${tenantId}/export`, '_blank');
+    }
+
+    function openInvoice(orderId) {
+      const order = allOrders.find(o => o.id === orderId);
+      if (!order) return;
+
+      document.getElementById('inv-order-id').innerText = '#' + (order.externalOrderId || order.id);
+      document.getElementById('inv-date').innerText = 'Date: ' + new Date(order.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+      document.getElementById('inv-customer-name').innerText = order.customerName;
+      document.getElementById('inv-property-type').innerText = order.propertyType ? `Type: ${order.propertyType}` : 'Établissement Hôtelier';
+      
+      let phoneText = `Tél WA: ${order.customerPhone}`;
+      if (order.contactPhone) {
+        phoneText += ` | 2ème Tél: ${order.contactPhone}`;
+      }
+      document.getElementById('inv-phones').innerText = phoneText;
+      document.getElementById('inv-city').innerText = order.city || 'Marrakech';
+      document.getElementById('inv-address').innerText = order.address || 'Adresse non spécifiée';
+
+      const itemsTbody = document.getElementById('inv-items-tbody');
+      itemsTbody.innerHTML = '';
+      const items = order.items && order.items.length > 0 ? order.items : [{ title: 'Articles literie & linge', quantity: 1, unitPrice: order.totalPrice }];
+      
+      let subtotal = 0;
+      items.forEach(it => {
+        const qty = it.quantity || 1;
+        const uPrice = it.unitPrice || (order.totalPrice / qty);
+        const lineTotal = uPrice * qty;
+        subtotal += lineTotal;
+        itemsTbody.innerHTML += `
+          <tr style="border-bottom: 1px solid #f1f5f9;">
+            <td style="padding: 8px 10px; font-weight: 500;">${it.title}</td>
+            <td style="padding: 8px 10px; text-align: center; font-weight: 600;">${qty}</td>
+            <td style="padding: 8px 10px; text-align: right;">${Number(uPrice).toFixed(2)} MAD</td>
+            <td style="padding: 8px 10px; text-align: right; font-weight: 700; color: #047857;">${Number(lineTotal).toFixed(2)} MAD</td>
+          </tr>
+        `;
+      });
+
+      const tva = subtotal * 0.20;
+      const totalTtc = subtotal + tva;
+
+      document.getElementById('inv-subtotal').innerText = subtotal.toFixed(2) + ' MAD';
+      document.getElementById('inv-tva').innerText = tva.toFixed(2) + ' MAD';
+      document.getElementById('inv-total-ttc').innerText = totalTtc.toFixed(2) + ' MAD';
+
+      document.getElementById('invoice-modal').style.display = 'flex';
+    }
+
+    function closeInvoice() {
+      document.getElementById('invoice-modal').style.display = 'none';
+    }
+
+    // ==========================================
+    // SOUMISSION D'UNE COMMANDE DE TEST
+    // ==========================================
     document.getElementById('order-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('cust-name').value;
@@ -784,7 +1440,7 @@
       const typingId = 'typing_' + Date.now();
       container.innerHTML += `
         <div id="${typingId}" class="wa-bubble-in" style="font-style: italic; color: #64748b; font-size: 11px;">
-          Easy Linge Kech est en train d'écrire...
+          Hicham est en train d'écrire...
         </div>
       `;
       container.scrollTop = container.scrollHeight;
@@ -804,7 +1460,7 @@
         const typingEl = document.getElementById(typingId);
         if (typingEl) typingEl.remove();
 
-        const reply = data.reply || "Bonjour ! Comment pouvons-nous équiper votre riad aujourd'hui ?";
+        const reply = data.reply || "Bonjour ! Comment pouvons-nous équiper votre établissement aujourd'hui ?";
         container.innerHTML += `<div class="wa-bubble-in" style="white-space: pre-line;">${reply}</div>`;
         container.scrollTop = container.scrollHeight;
         loadData();
@@ -815,8 +1471,8 @@
       }
     }
 
-    // Initial load
-    loadData();
+    // Initialisation
+    checkAuth();
   </script>
 </body>
 </html>

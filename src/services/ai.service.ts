@@ -62,7 +62,9 @@ export class AiService {
       parameters: {
         type: 'OBJECT',
         properties: {
-          customerName: { type: 'STRING', description: "Nom du client ou du riad/hôtel" },
+          customerName: { type: 'STRING', description: "Nom du client ou de l'établissement (Riad, Hôtel, Villa, Airbnb, Booking, Maison d'hôte)" },
+          propertyType: { type: 'STRING', description: "Type d'établissement : 'Riad', 'Hôtel', 'Airbnb', 'Booking', 'Villa', 'Maison d\'hôte', 'Particulier'" },
+          contactPhone: { type: 'STRING', description: "Deuxième numéro de téléphone fourni par le client pour la livraison (06/07/05...)" },
           customerPhone: { type: 'STRING', description: "Numéro marocain VALIDE : 06/07/05 + 8 chiffres (10 total) ou +212 + 9 chiffres. NE PAS accepter de numéros incomplets." },
           deliveryAddress: { type: 'STRING', description: "Adresse de livraison RÉELLE au Maroc avec quartier/hay/derb/rue/avenue. NE PAS accepter de lettres aléatoires ou charabia." },
           items: {
@@ -200,6 +202,10 @@ export class AiService {
     // Extract city from address — default to "Marrakech"
     const city = this.extractCityFromAddress(deliveryAddress);
 
+    // Extract second contact phone if provided by client
+    const contactPhone = args.contactPhone || (args.customerPhone && args.customerPhone !== customerPhone ? args.customerPhone : args.customerPhone || undefined);
+    const propertyType = args.propertyType || undefined;
+
     // Build Order object matching the Order interface exactly
     const order = {
       id: orderId,
@@ -208,6 +214,8 @@ export class AiService {
       platform: 'custom' as const,
       customerName: args.customerName || 'Client WhatsApp',
       customerPhone,
+      contactPhone,
+      propertyType,
       city,
       address: deliveryAddress,
       totalPrice: totalHT,
@@ -219,7 +227,7 @@ export class AiService {
     };
     db.saveOrder(order as any);
 
-    console.log(`[ORDER] ✅ ${orderId} — ${orderItems.length} articles — ${totalHT} DH HT — ${city} — ${deliveryAddress}`);
+    console.log(`[ORDER] ✅ ${orderId} — ${orderItems.length} articles — ${totalHT} DH HT — ${city} — Tél2: ${contactPhone || 'non spécifié'} — Type: ${propertyType || 'Non spécifié'} — ${deliveryAddress}`);
 
     return {
       success: true,
@@ -227,6 +235,8 @@ export class AiService {
       totalHT,
       totalTTC,
       city,
+      contactPhone,
+      propertyType,
       itemCount: orderItems.length,
       message: `Commande ${orderId} créée: ${totalHT} DH HT (${totalTTC} DH TTC).`,
     };
@@ -395,7 +405,7 @@ export class AiService {
     const customerOrdersSection = this.buildCustomerOrdersContext(customerOrders);
 
     return `Tu es Hicham, conseiller textile chez Easy Linge Kech (May Business SARL) à Marrakech.
-Tu parles par WhatsApp avec des gérants de riads, hôtels et maisons d'hôtes.
+Tu parles par WhatsApp avec des gérants et propriétaires de tout type d'hébergement : Riads, Hôtels, appartements Airbnb / Booking, Maisons d'hôtes et Villas de vacances.
 
 ══════════════════════════════════════════
   RÈGLE #1 — INTERDICTION TOTALE DE RÉPÉTITION
@@ -441,12 +451,23 @@ Tu parles par WhatsApp avec des gérants de riads, hôtels et maisons d'hôtes.
 • Arabizi : 3=ع, 7=ح, 9=ق, 5=خ, 8=غ.
 
 ══════════════════════════════════════════
-  RÈGLE #6 — PERSONNALITÉ
+  RÈGLE #6 — CLIENTÈLE & TON PROFESSIONNEL
 ══════════════════════════════════════════
-• Sois HUMAIN et naturel, comme un vrai vendeur marocain sur WhatsApp.
-• JAMAIS de "Marhba bik", "Bienvenue", "Bonjour", "Ahlan" ni aucune formule robotique en début de message.
+• CLIENTÈLE DIVERSIFIÉE : Nos clients ne sont pas seulement des Riads ! Nous équipons aussi des hôtes Airbnb, Booking, appartements meublés, villas privées, hôtels et maisons d'hôtes.
+  - NE PRÉSUME PAS que le client a forcément un riad. Utilise des termes adaptés : "votre hébergement", "votre riad, appartement Airbnb ou villa".
+  - Demande ou note le type d'établissement et son nom (Riad, Hôtel, Airbnb, Villa, etc.).
+• INTERDICTION STRICTE DE "3LA SLAMTEK" OU FORMULES FAMILIÈRES :
+  - Ne dis JAMAIS "3la slamtek" ou "Safi 3la slamtek". C'est un contact commercial B2B professionnel.
+  - Pour confirmer une commande, utilise TOUJOURS une formule professionnelle :
+    * En Français : "Parfait, votre commande est enregistrée avec succès. Voici le récapitulatif : [...]"
+    * En Darija : "Mzyan bzaf, commande dyalkom tsajjlat b najah. Ha l-récapitulatif : [...]"
+    * En Arabe : "ممتاز، تم تسجيل طلبكم بنجاح ومراجعته كالتالي: [...]"
+• DEUXIÈME NUMÉRO DE CONTACT :
+  - Si le client donne son numéro de téléphone ou un deuxième numéro pour la livraison/réception, enregistre-le précieusement dans contactPhone.
+• Sois poli, dynamique et professionnel.
+• JAMAIS de "Marhba bik", "Bienvenue", "Bonjour", "Ahlan" répétitifs en début de message.
 • JAMAIS de lien de site web.
-• Emojis : 1-2 max par message, naturels, pas forcés.
+• Emojis : 1-2 max par message, sobres et naturels.
 • Tous les prix en "DH HT" (MAD Hors Taxe).
 • Si un produit n'est pas dans le catalogue, dis-le honnêtement.
 
@@ -513,12 +534,13 @@ Easy Linge Kech (May Business SARL). Factures professionnelles avec TVA disponib
     const recent = customerOrders.slice(0, 3);
     const lines = recent.map((o) => {
       const itemsStr = (o.items || []).map((i) => `${i.quantity}x ${i.title}`).join(', ');
-      const statusLabel =
-        o.confirmationStatus === 'CONFIRMED'
-          ? 'Confirmée ✅ (En préparation / livraison sous 24h)'
-          : o.confirmationStatus === 'CANCELLED'
-          ? 'Annulée ❌'
-          : 'En attente ⏳';
+      let statusLabel = 'En attente ⏳';
+      if (o.confirmationStatus === 'CONFIRMED') statusLabel = 'Confirmée ✅ (Enregistrée)';
+      else if (o.confirmationStatus === 'PREPARATION') statusLabel = 'En préparation à l\'atelier 🧵';
+      else if (o.confirmationStatus === 'SHIPPED') statusLabel = 'En cours de livraison (Livreur en route) 🚚';
+      else if (o.confirmationStatus === 'DELIVERED') statusLabel = 'Livrée & Payée avec succès ✅';
+      else if (o.confirmationStatus === 'CANCELLED') statusLabel = 'Annulée ❌';
+
       return `• N° ${o.externalOrderId || o.id} (${itemsStr}) — Total: ${o.totalPrice} DH HT — Statut: ${statusLabel} — Adresse: ${o.address || o.city}`;
     });
 

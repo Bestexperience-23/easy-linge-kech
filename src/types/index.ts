@@ -22,6 +22,9 @@ export interface WhatsAppConfig {
 export type OrderConfirmationStatus = 
   | 'PENDING' 
   | 'CONFIRMED' 
+  | 'PREPARATION'
+  | 'SHIPPED'
+  | 'DELIVERED'
   | 'CANCELLED' 
   | 'ADDRESS_CHANGE_REQUESTED';
 
@@ -39,6 +42,8 @@ export interface Order {
   platform: 'youcan' | 'shopify' | 'woocommerce' | 'custom';
   customerName: string;
   customerPhone: string; // Format E.164 (+212...)
+  contactPhone?: string; // 2ème numéro fourni par le client pour contact/livraison
+  propertyType?: string; // Type d'hébergement : Riad, Hôtel, Airbnb, Booking, Villa, etc.
   city: string;
   address: string;
   totalPrice: number;

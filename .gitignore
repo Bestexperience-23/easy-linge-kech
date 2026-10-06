@@ -8,18 +8,27 @@ dist/
 # Environment variables & secrets (CRITICAL)
 .env
 .env.local
+.env.*
 *.env
+!.env.example
 
-# Local database / data storage
+# Local database / data storage & backups
 data/
+*.sqlite
+*.db
+*.bak
 
-# Logs & temp files
+# Logs & temp test files
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 test_msg.json
 test_dashboard.json
+*.xlsx
 
-# OS files
+# OS files & IDE
 .DS_Store
 Thumbs.db
+.vscode/
+.idea/
