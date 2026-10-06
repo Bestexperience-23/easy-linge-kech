@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Easy Linge Kech — Assistant WhatsApp Riads & Hôtels</title>
+  <style>
+    /* RESET & BASE */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f8fafc;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+
+    /* CONTAINER & LAYOUT */
+    .app-header {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: #059669;
+      color: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .brand-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge-pro {
+      background: #ecfdf5;
+      color: #047857;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      border: 1px solid #a7f3d0;
+      font-weight: 600;
+    }
+    .brand-sub {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .main-container {
+      max-width: 1240px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    /* KPI STATS CARDS */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .kpi-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      color: #64748b;
+    }
+    .kpi-value {
+      font-size: 26px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 4px 0 2px 0;
+    }
+    .kpi-desc {
+      font-size: 12px;
+      color: #059669;
+      font-weight: 500;
+    }
+    .kpi-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    /* 2 COLUMNS GRID */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 950px) {
+      .content-grid { grid-template-columns: 1fr; }
+    }
+
+    /* LEFT PANELS */
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .card-header {
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-sub {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+
+    /* FORM STYLES */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+    input, select {
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+      background: #ffffff;
+    }
+    input:focus, select:focus {
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5,150,105,0.15);
+    }
+    .btn-submit {
+      background: #059669;
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-submit:hover {
+      background: #047857;
+    }
+
+    /* ORDERS TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    th {
+      background: #f8fafc;
+      color: #475569;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid #e2e8f0;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 11px;
+    }
+    .badge-confirmed { background: #dcfce7; color: #166534; }
+    .badge-pending { background: #fef3c7; color: #92400e; }
+    .badge-cancelled { background: #ffe4e6; color: #9f1239; }
+
+    /* RIGHT: CLIENT INFO BANNER */
+    .client-banner {
+      background: linear-gradient(135deg, #064e3b 0%, #0f172a 100%);
+      color: #ffffff;
+      padding: 16px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      border: 1px solid #047857;
+    }
+    .client-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    /* SMARTPHONE MOCKUP */
+    .smartphone {
+      background: #0f172a;
+      border: 8px solid #1e293b;
+      border-radius: 36px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      overflow: hidden;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .phone-top-bar {
+      height: 18px;
+      background: #0f172a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .phone-notch {
+      width: 60px;
+      height: 5px;
+      background: #334155;
+      border-radius: 4px;
+    }
+    .wa-screen {
+      background: #efeae2;
+      height: 540px;
+      display: flex;
+      flex-direction: column;
+    }
+    .wa-header {
+      background: #075e54;
+      color: #ffffff;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .wa-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #042f2e;
+      color: #a7f3d0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .wa-chat-area {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+    }
+    .wa-bubble-in {
+      align-self: flex-start;
+      background: #ffffff;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border-top-left-radius: 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      max-width: 88%;
+      color: #1e293b;
+    }
+    .wa-bubble-out {
+      align-self: flex-end;
+      background: #d9fdd3;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border-top-right-radius: 2px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      max-width: 80%;
+      color: #1e293b;
+    }
+    .wa-btn {
+      display: block;
+      width: 100%;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #15803d;
+      padding: 6px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 11px;
+      margin-top: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .wa-btn:hover { background: #dcfce7; }
+    .wa-input-bar {
+      background: #f0f2f5;
+      padding: 8px 10px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      border-top: 1px solid #e2e8f0;
+    }
+    .wa-input-field {
+      flex: 1;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 8px 12px;
+      font-size: 12px;
+      outline: none;
+    }
+    .wa-send-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #059669;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand-group">
+        <div class="brand-icon">🏨</div>
+        <div>
+          <div class="brand-title">
+            Easy Linge Kech <span class="badge-pro">Catalogue 2026</span>
+          </div>
+          <div class="brand-sub">Assistant WhatsApp IA pour Riads, Hôtels & Maisons d'hôtes (Marrakech)</div>
+        </div>
+      </div>
+      <div style="text-align: right; font-size: 12px;">
+        <div style="font-weight: 600; color: #0f172a;">May Business SARL Kech</div>
+        <div style="color: #059669;">🌐 ezzilinge.ma • WhatsApp Officiel</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-container">
+
+    <!-- KPI STATS -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-title">Total Commandes</div>
+          <div id="stat-total" class="kpi-value">0</div>
+          <div class="kpi-desc">Riads & Hôtels</div>
+        </div>
+        <div class="kpi-icon">📦</div>
+      </div>
+
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-title">Taux de Confirmation</div>
+          <div id="stat-rate" class="kpi-value" style="color: #059669;">0%</div>
+          <div class="kpi-desc">Confirmation directe</div>
+        </div>
+        <div class="kpi-icon">✅</div>
+      </div>
+
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-title">Commandes Confirmées</div>
+          <div id="stat-confirmed" class="kpi-value">0</div>
+          <div class="kpi-desc">En préparation atelier</div>
+        </div>
+        <div class="kpi-icon">🚚</div>
+      </div>
+
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-title">En attente / Annulées</div>
+          <div class="kpi-value">
+            <span id="stat-pending">0</span> / <span id="stat-cancelled" style="color: #e11d48;">0</span>
+          </div>
+          <div class="kpi-desc" style="color: #64748b;">Suivi automatisé</div>
+        </div>
+        <div class="kpi-icon">⏳</div>
+      </div>
+    </div>
+
+    <!-- MAIN TWO COLUMN GRID -->
+    <div class="content-grid">
+      
+      <!-- LEFT: ORDER FORM & TABLE -->
+      <div>
+        
+        <!-- COMMANDE SIMULATEUR -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">📝 Nouvelle Commande Linge Hôtelier</h2>
+            <p class="card-sub">Testez l'envoi d'une commande d'un riad ou hôtel pour déclencher la confirmation WhatsApp.</p>
+          </div>
+
+          <form id="order-form" class="form-grid">
+            <div>
+              <label>Établissement & Contact</label>
+              <input type="text" id="cust-name" required value="Riad Al Jazira (M. Karim)" />
+            </div>
+
+            <div>
+              <label>Téléphone WhatsApp</label>
+              <input type="text" id="cust-phone" required value="0661987654" />
+            </div>
+
+            <div>
+              <label>Ville</label>
+              <select id="cust-city">
+                <option value="Marrakech">Marrakech (Livraison 24h directe riad)</option>
+                <option value="Casablanca">Casablanca</option>
+                <option value="Rabat">Rabat</option>
+                <option value="Agadir">Agadir</option>
+                <option value="Tanger">Tanger</option>
+                <option value="Fès">Fès</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Montant Total HT (MAD)</label>
+              <input type="number" id="cust-price" required value="1454" />
+            </div>
+
+            <div class="form-group-full">
+              <label>Adresse dans Marrakech / Maroc</label>
+              <input type="text" id="cust-address" required value="Derb Sidi Ahmed Soussi, Médina Marrakech" />
+            </div>
+
+            <div class="form-group-full" style="display: flex; justify-content: flex-end; margin-top: 8px;">
+              <button type="submit" class="btn-submit">
+                <span>💬</span> Envoyer Notification WhatsApp
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- TABLEAU DES COMMANDES -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div style="padding: 14px 18px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-weight: 700; font-size: 13px;">Dernières Commandes Traitées</div>
+            <button onclick="loadData()" style="background: none; border: 1px solid #cbd5e1; padding: 4px 8px; border-radius: 6px; font-size: 11px; cursor: pointer;">
+              🔄 Actualiser
+            </button>
+          </div>
+          <div style="overflow-x: auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>N° Commande</th>
+                  <th>Établissement</th>
+                  <th>Ville</th>
+                  <th>Adresse</th>
+                  <th>Total HT</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody id="orders-tbody">
+                <!-- Rempli par JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: SMARTPHONE WHATSAPP -->
+      <div>
+        
+        <div class="client-banner">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <b style="font-size: 13px;">Easy Linge Kech</b>
+            <span class="client-badge">16 Familles de Linge</span>
+          </div>
+          <p style="font-size: 11px; opacity: 0.9; margin-bottom: 8px;">
+            Spécialiste literie & bain : Draps polycoton, couettes, surmatelas 10cm, peignoirs (velours, nid d'abeille, bouclette) et serviettes 500-700g/m².
+          </p>
+          <div style="font-size: 11px; opacity: 0.75;">
+            📍 Médina, Guéliz, Palmeraie & tout le Maroc.
+          </div>
+        </div>
+
+        <!-- SMARTPHONE -->
+        <div class="smartphone">
+          <div class="phone-top-bar">
+            <div class="phone-notch"></div>
+          </div>
+
+          <div class="wa-screen">
+            <!-- WA HEADER -->
+            <div class="wa-header">
+              <div class="wa-avatar">EL</div>
+              <div style="flex: 1;">
+                <div style="font-weight: 700; font-size: 12px; line-height: 1.2;">Easy Linge Kech</div>
+                <div style="font-size: 10px; opacity: 0.85;">Riads & Hôtels • Marrakech</div>
+              </div>
+            </div>
+
+            <!-- WA CHAT AREA -->
+            <div id="wa-messages" class="wa-chat-area">
+              <div style="text-align: center; margin: 6px 0;">
+                <span style="background: #fef3c7; color: #92400e; font-size: 9px; padding: 2px 6px; border-radius: 4px;">
+                  🔒 Messages chiffrés de bout en bout
+                </span>
+              </div>
+              <div class="wa-bubble-in">
+                Bonjour ! Bienvenue chez <b>Easy Linge Kech</b> 🌿<br/>
+                Nous fournissons les riads et hôtels de Marrakech en linge de lit et de bain haut de gamme.<br/>
+                <i>Posez votre question sur nos draps, peignoirs, surmatelas ou délais de livraison !</i>
+              </div>
+            </div>
+
+            <!-- WA INPUT -->
+            <div class="wa-input-bar">
+              <input 
+                type="text" 
+                id="wa-input" 
+                class="wa-input-field" 
+                placeholder="Écrivez en Français ou Darija..." 
+                onkeypress="if(event.key === 'Enter') sendCustomerMessage()"
+              />
+              <button onclick="sendCustomerMessage()" class="wa-send-btn">➤</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const tenantId = 'tenant_maroc_demo_01';
+    let currentCustomerPhone = '+212661987654';
+
+    async function loadData() {
+      try {
+        const analyticsRes = await fetch(`/api/analytics/${tenantId}`);
+        const analyticsData = await analyticsRes.json();
+        if (analyticsData.success) {
+          const a = analyticsData.analytics;
+          document.getElementById('stat-total').innerText = a.totalOrders;
+          document.getElementById('stat-rate').innerText = a.confirmationRate;
+          document.getElementById('stat-confirmed').innerText = a.confirmedOrders;
+          document.getElementById('stat-pending').innerText = a.pendingOrders;
+          document.getElementById('stat-cancelled').innerText = a.cancelledOrders;
+        }
+
+        const ordersRes = await fetch(`/api/orders/${tenantId}`);
+        const ordersData = await ordersRes.json();
+        if (ordersData.success) {
+          renderOrders(ordersData.orders);
+        }
+      } catch (err) {
+        console.error('Erreur chargement données:', err);
+      }
+    }
+
+    function renderOrders(orders) {
+      const tbody = document.getElementById('orders-tbody');
+      tbody.innerHTML = '';
+
+      if (orders.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #94a3b8; padding: 24px;">Aucune commande pour le moment. Créez-en une à gauche !</td></tr>`;
+        return;
+      }
+
+      orders.slice().reverse().forEach(o => {
+        let badgeClass = 'badge-pending';
+        let badgeLabel = 'En attente';
+
+        if (o.confirmationStatus === 'CONFIRMED') {
+          badgeClass = 'badge-confirmed';
+          badgeLabel = '✓ Confirmée';
+        } else if (o.confirmationStatus === 'CANCELLED') {
+          badgeClass = 'badge-cancelled';
+          badgeLabel = '✕ Annulée';
+        }
+
+        tbody.innerHTML += `
+          <tr>
+            <td style="font-weight: 700;">#${o.externalOrderId}</td>
+            <td>
+              <div style="font-weight: 600;">${o.customerName}</div>
+              <div style="font-size: 10px; color: #94a3b8;">${o.customerPhone}</div>
+            </td>
+            <td>${o.city}</td>
+            <td style="max-width: 180px; font-size: 11px; color: #475569; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${o.address || ''}">${o.address || '—'}</td>
+            <td style="font-weight: 700; color: #047857;">${o.totalPrice} MAD</td>
+            <td><span class="badge ${badgeClass}">${badgeLabel}</span></td>
+          </tr>
+        `;
+      });
+    }
+
+    // SUBMIT NOUVELLE COMMANDE
+    document.getElementById('order-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('cust-name').value;
+      const phone = document.getElementById('cust-phone').value;
+      const city = document.getElementById('cust-city').value;
+      const price = document.getElementById('cust-price').value;
+      const address = document.getElementById('cust-address').value;
+
+      try {
+        const res = await fetch(`/api/orders/youcan/${tenantId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            order_number: Math.floor(1000 + Math.random() * 9000).toString(),
+            customer: {
+              first_name: name.split(' ')[0],
+              last_name: name.split(' ').slice(1).join(' '),
+              phone: phone,
+              city: city,
+              address: address,
+            },
+            total: Number(price),
+            order_lines: [{ id: '1', name: 'Surmatelas Hôtelier 180x200cm King', quantity: 1, price: Number(price) }]
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          currentCustomerPhone = data.order.customerPhone;
+          renderWhatsAppOrderPrompt(data.order);
+          loadData();
+        }
+      } catch (err) {
+        alert('Erreur lors de la création de commande');
+      }
+    });
+
+    function renderWhatsAppOrderPrompt(order) {
+      const container = document.getElementById('wa-messages');
+      container.innerHTML += `
+        <div class="wa-bubble-in">
+          <b>Salam / Bonjour ${order.customerName} 👋</b><br/>
+          Merci pour votre commande chez <b>Easy Linge Kech</b> !<br/><br/>
+          📦 1x Surmatelas Hôtelier 180x200cm (${order.totalPrice} MAD HT)<br/>
+          📍 <b>Livraison :</b> ${order.city} (${order.address})<br/><br/>
+          Voulez-vous confirmer cette commande pour expédition rapide ? 👇
+          <button onclick="clickWhatsAppButton('CONFIRM_${order.id}', '${order.customerName}')" class="wa-btn">
+            ✅ Oui, je confirme la commande
+          </button>
+          <button onclick="clickWhatsAppButton('CANCEL_${order.id}', '${order.customerName}')" class="wa-btn" style="color: #b91c1c; border-color: #fecaca; background: #fff1f2;">
+            ❌ Annuler la commande
+          </button>
+        </div>
+      `;
+      container.scrollTop = container.scrollHeight;
+    }
+
+    async function clickWhatsAppButton(payload, customerName) {
+      const container = document.getElementById('wa-messages');
+      const actionName = payload.startsWith('CONFIRM') ? '✅ Oui, je confirme la commande' : '❌ Annuler la commande';
+      
+      container.innerHTML += `
+        <div class="wa-bubble-out">
+          <b>${actionName}</b>
+        </div>
+      `;
+      container.scrollTop = container.scrollHeight;
+
+      await fetch(`/webhook/whatsapp?tenantId=${tenantId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          object: 'whatsapp_business_account',
+          entry: [{
+            id: 'WABA_EASY_LINGE_KECH',
+            changes: [{
+              value: {
+                messaging_product: 'whatsapp',
+                messages: [{
+                  from: currentCustomerPhone.replace('+', ''),
+                  id: 'wamid.' + Date.now(),
+                  type: 'interactive',
+                  interactive: {
+                    type: 'button_reply',
+                    button_reply: { id: payload, title: actionName }
+                  }
+                }]
+              }
+            }]
+          }]
+        })
+      });
+
+      setTimeout(() => {
+        let reply = payload.startsWith('CONFIRM')
+          ? `Parfait ${customerName} ! Votre commande est bien confirmée ✅ L'équipe Easy Linge Kech prépare votre livraison.`
+          : `Bien noté, la commande a été annulée. N'hésitez pas si vous avez besoin d'un autre devis !`;
+
+        container.innerHTML += `<div class="wa-bubble-in">${reply}</div>`;
+        container.scrollTop = container.scrollHeight;
+        loadData();
+      }, 500);
+    }
+
+    async function sendCustomerMessage() {
+      const input = document.getElementById('wa-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const container = document.getElementById('wa-messages');
+
+      container.innerHTML += `
+        <div class="wa-bubble-out">${text}</div>
+      `;
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+
+      // Typing indicator
+      const typingId = 'typing_' + Date.now();
+      container.innerHTML += `
+        <div id="${typingId}" class="wa-bubble-in" style="font-style: italic; color: #64748b; font-size: 11px;">
+          Easy Linge Kech est en train d'écrire...
+        </div>
+      `;
+      container.scrollTop = container.scrollHeight;
+
+      try {
+        const response = await fetch('/api/chat/message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tenantId,
+            customerPhone: currentCustomerPhone,
+            message: text
+          })
+        });
+
+        const data = await response.json();
+        const typingEl = document.getElementById(typingId);
+        if (typingEl) typingEl.remove();
+
+        const reply = data.reply || "Bonjour ! Comment pouvons-nous équiper votre riad aujourd'hui ?";
+        container.innerHTML += `<div class="wa-bubble-in" style="white-space: pre-line;">${reply}</div>`;
+        container.scrollTop = container.scrollHeight;
+        loadData();
+      } catch (err) {
+        const typingEl = document.getElementById(typingId);
+        if (typingEl) typingEl.remove();
+        console.error('Erreur chat:', err);
+      }
+    }
+
+    // Initial load
+    loadData();
+  </script>
+</body>
+</html>
