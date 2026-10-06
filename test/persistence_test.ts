@@ -27,7 +27,7 @@ async function main() {
   const msg1 = "salam, bghit 4 peignoirs bouclette L-XL 500g w 2 tapis de bain, l'adresse hiya Riad Salam, Derb Dabachi, Médina, Marrakech w telephoni 0661234567";
   console.log(`👤 CLIENT: "${msg1}"`);
   const reply1 = await send(msg1);
-  console.log(`🤖 AMINE: ${reply1}\n`);
+  console.log(`🤖 HICHAM: ${reply1}\n`);
 
   // Étape 2: Vérifier le fichier data/orders.json
   const ordersPath = path.join(process.cwd(), 'data', 'orders.json');
@@ -48,7 +48,7 @@ async function main() {
   const msg2 = "salam khoya, fin wslat la commande dyali li 3ad dfe3t?";
   console.log(`👤 CLIENT: "${msg2}"`);
   const reply2 = await send(msg2);
-  console.log(`🤖 AMINE: ${reply2}\n`);
+  console.log(`🤖 HICHAM: ${reply2}\n`);
 
   console.log('═══════════════════════════════════════════════════════');
   console.log('✅ Test terminé avec succès !');

@@ -23,14 +23,14 @@ async function main() {
   // Step 1: Start order
   console.log('👤 CLIENT: "salam bghit 5 draps plat dyal 180"');
   let reply = await send('salam bghit 5 draps plat dyal 180');
-  console.log(`🤖 AMINE: ${reply}`);
+  console.log(`🤖 HICHAM: ${reply}`);
   console.log('─'.repeat(60));
 
   // Step 2: Give INVALID phone (6 digits only)
   await new Promise(r => setTimeout(r, 2000));
   console.log('\n👤 CLIENT: "ok safi, telefoni 060887, w l\'adresse jkhsjkhs lgshieq"');
   reply = await send("ok safi, telefoni 060887, w l'adresse jkhsjkhs lgshieq");
-  console.log(`🤖 AMINE: ${reply}`);
+  console.log(`🤖 HICHAM: ${reply}`);
   console.log('─'.repeat(60));
   console.log('  ⬆️ Le bot devrait REFUSER le numéro ET l\'adresse\n');
 
@@ -38,7 +38,7 @@ async function main() {
   await new Promise(r => setTimeout(r, 2000));
   console.log('👤 CLIENT: "0661234567 w l\'adresse hiya xxxzzzyyyqqq"');
   reply = await send("0661234567 w l'adresse hiya xxxzzzyyyqqq");
-  console.log(`🤖 AMINE: ${reply}`);
+  console.log(`🤖 HICHAM: ${reply}`);
   console.log('─'.repeat(60));
   console.log('  ⬆️ Le bot devrait REFUSER l\'adresse\n');
 
@@ -46,7 +46,7 @@ async function main() {
   await new Promise(r => setTimeout(r, 2000));
   console.log('👤 CLIENT: "0661234567, Riad Dar Zaman, derb Moulay Abdellah, Médina, Marrakech"');
   reply = await send('0661234567, Riad Dar Zaman, derb Moulay Abdellah, Médina, Marrakech');
-  console.log(`🤖 AMINE: ${reply}`);
+  console.log(`🤖 HICHAM: ${reply}`);
   console.log('─'.repeat(60));
   console.log('  ⬆️ Le bot devrait CRÉER la commande\n');
 

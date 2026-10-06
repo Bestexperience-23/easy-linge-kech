@@ -94,7 +94,7 @@ const CREATE_ORDER_DECLARATION = {
 function buildSystemPrompt(): string {
   const catalogText = buildCatalogTextForPrompt();
 
-  return `Tu es Amine, conseiller textile chez Easy Linge Kech (May Business SARL) à Marrakech.
+  return `Tu es Hicham, conseiller textile chez Easy Linge Kech (May Business SARL) à Marrakech.
 Tu parles par WhatsApp avec des gérants de riads, hôtels et maisons d'hôtes.
 
 ══════════════════════════════════════════
@@ -316,7 +316,7 @@ class GeminiAgent {
 async function main() {
   console.log('═══════════════════════════════════════════════════════');
   console.log('  🧪 TEST GEMINI FUNCTION CALLING — Easy Linge Kech');
-  console.log('  Agent Amine avec create_order');
+  console.log('  Agent Hicham avec create_order');
   console.log('═══════════════════════════════════════════════════════\n');
 
   const agent = new GeminiAgent();
@@ -334,7 +334,7 @@ async function main() {
 
     try {
       const reply = await agent.chat(msg);
-      console.log(`🤖 AMINE: ${reply}`);
+      console.log(`🤖 HICHAM: ${reply}`);
     } catch (err: any) {
       console.error(`❌ Erreur: ${err.response?.data?.error?.message || err.message}`);
     }

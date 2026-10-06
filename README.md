@@ -6,7 +6,7 @@ Agent conversationnel WhatsApp intelligent propulsé par **Google Gemini** pour 
 
 ## ✨ Fonctionnalités Clés
 
-- 🧠 **Agent IA Intelligent (Amine)** :
+- 🧠 **Agent IA Intelligent (Hicham)** :
   - Support multilingue : **Darija (Arabizi)**, Français, Arabe et Anglais avec adaptation automatique.
   - Compréhension avancée des formats marocains (tailles hôtelières 180, types de linge, argot local).
   - Calcul automatique et exact des devis (HT et TTC à 20%).

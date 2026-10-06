@@ -47,7 +47,7 @@ async function main() {
     
     try {
       const reply = await post(msg);
-      console.log(`🤖 AMINE: ${reply}`);
+      console.log(`🤖 HICHAM: ${reply}`);
     } catch (err: any) {
       console.log(`❌ ERREUR: ${err.message}`);
     }
