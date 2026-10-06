@@ -221,8 +221,7 @@ export class AiService {
       totalPrice: totalHT,
       currency: 'MAD',
       items: orderItems,
-      confirmationStatus: 'CONFIRMED' as const,
-      confirmedAt: new Date(),
+      confirmationStatus: 'PENDING' as const,
       createdAt: new Date(),
     };
     db.saveOrder(order as any);

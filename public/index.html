@@ -548,9 +548,7 @@
     #auth-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: #090d16;
       z-index: 99999;
       display: flex;
       align-items: center;
@@ -717,8 +715,11 @@
     </div>
   </div>
 
-  <!-- HEADER -->
-  <header class="app-header">
+  <!-- CONTENU DE LA PLATEFORME (MASQUÉ AVANT AUTHENTIFICATION) -->
+  <div id="platform-content" style="display: none;">
+
+    <!-- HEADER -->
+    <header class="app-header">
     <div class="header-inner">
       <div class="brand-group">
         <div class="brand-icon-3d">🏨</div>
@@ -1065,6 +1066,8 @@
     </div>
   </div>
 
+  </div><!-- /#platform-content -->
+
   <script>
     const tenantId = 'tenant_maroc_demo_01';
     let currentCustomerPhone = '+212661987654';
@@ -1076,14 +1079,19 @@
     function checkAuth() {
       const token = localStorage.getItem('easy_linge_auth_token');
       const overlay = document.getElementById('auth-overlay');
+      const platform = document.getElementById('platform-content');
       if (token) {
         overlay.style.display = 'none';
+        if (platform) platform.style.display = 'block';
+        loadData();
+        loadChatHistory();
       } else {
+        overlay.style.display = 'flex';
+        if (platform) platform.style.display = 'none';
         const u = document.getElementById('auth-username');
         const p = document.getElementById('auth-password');
         if (u) u.value = '';
         if (p) p.value = '';
-        overlay.style.display = 'flex';
       }
     }
 
@@ -1115,7 +1123,9 @@
           userField.value = '';
           passField.value = '';
           document.getElementById('auth-overlay').style.display = 'none';
+          document.getElementById('platform-content').style.display = 'block';
           loadData();
+          loadChatHistory();
         } else {
           errorMsg.innerText = data.error || 'Identifiants invalides';
           errorMsg.style.display = 'block';
@@ -1133,11 +1143,14 @@
       if (confirm('Voulez-vous vraiment vous déconnecter de la plateforme ?')) {
         localStorage.removeItem('easy_linge_auth_token');
         localStorage.removeItem('easy_linge_auth_user');
+        const platform = document.getElementById('platform-content');
+        if (platform) platform.style.display = 'none';
+        const overlay = document.getElementById('auth-overlay');
+        if (overlay) overlay.style.display = 'flex';
         const u = document.getElementById('auth-username');
         const p = document.getElementById('auth-password');
         if (u) u.value = '';
         if (p) p.value = '';
-        checkAuth();
       }
     }
 
@@ -1323,6 +1336,40 @@
     }
 
     // ==========================================
+    // CHAT WHATSAPP PERSISTANT & BULLES STABLES
+    // ==========================================
+    function appendBubble(type, contentHtml) {
+      const container = document.getElementById('wa-messages');
+      const bubble = document.createElement('div');
+      bubble.className = type === 'out' ? 'wa-bubble-out' : 'wa-bubble-in';
+      bubble.innerHTML = contentHtml;
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    async function loadChatHistory() {
+      const container = document.getElementById('wa-messages');
+      try {
+        const res = await fetch(`/api/chat/history/${tenantId}?phone=${encodeURIComponent(currentCustomerPhone)}`);
+        const data = await res.json();
+        if (data.success && data.messages && data.messages.length > 0) {
+          container.innerHTML = `
+            <div style="text-align: center; margin: 6px 0;">
+              <span style="background: #fef3c7; color: #92400e; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 600;">
+                🔒 Canal officiel chiffré de bout en bout
+              </span>
+            </div>
+          `;
+          data.messages.forEach(m => {
+            appendBubble(m.direction === 'INBOUND' ? 'out' : 'in', m.content.replace(/\n/g, '<br/>'));
+          });
+        }
+      } catch (err) {
+        console.error('Erreur chargement messages:', err);
+      }
+    }
+
+    // ==========================================
     // SOUMISSION D'UNE COMMANDE DE TEST
     // ==========================================
     document.getElementById('order-form').addEventListener('submit', async (e) => {
@@ -1363,35 +1410,29 @@
     });
 
     function renderWhatsAppOrderPrompt(order) {
-      const container = document.getElementById('wa-messages');
-      container.innerHTML += `
-        <div class="wa-bubble-in">
-          <b>Salam / Bonjour ${order.customerName} 👋</b><br/>
-          Merci pour votre commande chez <b>Easy Linge Kech</b> !<br/><br/>
-          📦 1x Surmatelas Hôtelier 180x200cm (${order.totalPrice} MAD HT)<br/>
-          📍 <b>Livraison :</b> ${order.city} (${order.address})<br/><br/>
-          Voulez-vous confirmer cette commande pour expédition rapide ? 👇
-          <button onclick="clickWhatsAppButton('CONFIRM_${order.id}', '${order.customerName}')" class="wa-btn">
-            ✅ Oui, je confirme la commande
-          </button>
-          <button onclick="clickWhatsAppButton('CANCEL_${order.id}', '${order.customerName}')" class="wa-btn" style="color: #b91c1c; border-color: #fecaca; background: #fff1f2;">
-            ❌ Annuler la commande
-          </button>
-        </div>
+      const html = `
+        <b>Salam / Bonjour ${order.customerName} 👋</b><br/>
+        Merci pour votre commande chez <b>Easy Linge Kech</b> !<br/><br/>
+        📦 1x Surmatelas Hôtelier 180x200cm (${order.totalPrice} MAD HT)<br/>
+        📍 <b>Livraison :</b> ${order.city} (${order.address})<br/><br/>
+        Voulez-vous confirmer cette commande pour expédition rapide ? 👇
+        <button onclick="clickWhatsAppButton('CONFIRM_${order.id}', '${order.customerName}')" class="wa-btn">
+          ✅ Oui, je confirme la commande
+        </button>
+        <button onclick="clickWhatsAppButton('CANCEL_${order.id}', '${order.customerName}')" class="wa-btn" style="color: #b91c1c; border-color: #fecaca; background: #fff1f2;">
+          ❌ Annuler la commande
+        </button>
       `;
-      container.scrollTop = container.scrollHeight;
+      appendBubble('in', html);
+      if (window.innerWidth < 980) {
+        const phone = document.querySelector('.smartphone-3d');
+        if (phone) phone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     }
 
     async function clickWhatsAppButton(payload, customerName) {
-      const container = document.getElementById('wa-messages');
       const actionName = payload.startsWith('CONFIRM') ? '✅ Oui, je confirme la commande' : '❌ Annuler la commande';
-      
-      container.innerHTML += `
-        <div class="wa-bubble-out">
-          <b>${actionName}</b>
-        </div>
-      `;
-      container.scrollTop = container.scrollHeight;
+      appendBubble('out', `<b>${actionName}</b>`);
 
       await fetch(`/webhook/whatsapp?tenantId=${tenantId}`, {
         method: 'POST',
@@ -1420,11 +1461,10 @@
 
       setTimeout(() => {
         let reply = payload.startsWith('CONFIRM')
-          ? `Parfait ${customerName} ! Votre commande est bien confirmée ✅ L'équipe Easy Linge Kech prépare votre livraison.`
+          ? `Parfait ${customerName} ! Votre commande est bien enregistrée en attente de préparation ✅ L'équipe Easy Linge Kech prépare votre livraison.`
           : `Bien noté, la commande a été annulée. N'hésitez pas si vous avez besoin d'un autre devis !`;
 
-        container.innerHTML += `<div class="wa-bubble-in">${reply}</div>`;
-        container.scrollTop = container.scrollHeight;
+        appendBubble('in', reply);
         loadData();
       }, 500);
     }
@@ -1434,21 +1474,19 @@
       const text = input.value.trim();
       if (!text) return;
 
-      const container = document.getElementById('wa-messages');
-
-      container.innerHTML += `
-        <div class="wa-bubble-out">${text}</div>
-      `;
       input.value = '';
-      container.scrollTop = container.scrollHeight;
+      appendBubble('out', text);
 
       // Typing indicator
-      const typingId = 'typing_' + Date.now();
-      container.innerHTML += `
-        <div id="${typingId}" class="wa-bubble-in" style="font-style: italic; color: #64748b; font-size: 11px;">
-          Hicham est en train d'écrire...
-        </div>
-      `;
+      const container = document.getElementById('wa-messages');
+      const typingEl = document.createElement('div');
+      typingEl.className = 'wa-bubble-in';
+      typingEl.id = 'typing-indicator';
+      typingEl.style.fontStyle = 'italic';
+      typingEl.style.color = '#64748b';
+      typingEl.style.fontSize = '11px';
+      typingEl.innerText = 'Hicham est en train d\'écrire...';
+      container.appendChild(typingEl);
       container.scrollTop = container.scrollHeight;
 
       try {
@@ -1463,16 +1501,15 @@
         });
 
         const data = await response.json();
-        const typingEl = document.getElementById(typingId);
-        if (typingEl) typingEl.remove();
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) indicator.remove();
 
         const reply = data.reply || "Bonjour ! Comment pouvons-nous équiper votre établissement aujourd'hui ?";
-        container.innerHTML += `<div class="wa-bubble-in" style="white-space: pre-line;">${reply}</div>`;
-        container.scrollTop = container.scrollHeight;
+        appendBubble('in', reply.replace(/\n/g, '<br/>'));
         loadData();
       } catch (err) {
-        const typingEl = document.getElementById(typingId);
-        if (typingEl) typingEl.remove();
+        const indicator = document.getElementById('typing-indicator');
+        if (indicator) indicator.remove();
         console.error('Erreur chat:', err);
       }
     }

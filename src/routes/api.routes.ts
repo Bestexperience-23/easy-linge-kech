@@ -29,6 +29,7 @@ router.post('/api/orders/manual', (req, res) => orderController.handleManualOrde
 
 // Moteur de Chat IA en direct
 router.post('/api/chat/message', (req, res) => chatController.handleIncomingChatMessage(req, res));
+router.get('/api/chat/history/:tenantId', (req, res) => chatController.getChatHistory(req, res));
 
 // Dashboard Marchand API
 router.get('/api/orders/:tenantId', (req, res) => orderController.getTenantOrders(req, res));

@@ -46,6 +46,18 @@ export class ChatController {
       return res.status(500).json({ error: 'Erreur lors du traitement du message' });
     }
   }
+
+  async getChatHistory(req: Request, res: Response) {
+    try {
+      const tenantId = req.params.tenantId;
+      const phone = req.query.phone as string | undefined;
+      const messages = db.getMessageLogs(tenantId, phone);
+      return res.json({ success: true, messages });
+    } catch (err: any) {
+      console.error('[ChatController] Erreur récupération historique:', err);
+      return res.status(500).json({ success: false, error: 'Erreur récupération historique' });
+    }
+  }
 }
 
 export const chatController = new ChatController();
