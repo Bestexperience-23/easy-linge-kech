@@ -663,7 +663,161 @@
       font-size: 12px;
       font-weight: 700;
       margin-bottom: 12px;
+    /* ========================================================
+       NAVIGATION & ADAPTATION MOBILE (RESPONSIVE FIRST)
+       ======================================================== */
+    .mobile-nav-pills {
       display: none;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 6px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      gap: 6px;
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+    }
+    .mobile-tab-btn {
+      flex: 1;
+      border: none;
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .mobile-tab-btn.active {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35);
+    }
+
+    @media (max-width: 900px) {
+      .main-container {
+        padding: 0 12px;
+        margin: 12px auto;
+      }
+      .app-header {
+        padding: 12px;
+      }
+      .brand-sub {
+        display: none;
+      }
+      .admin-pill-3d {
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+      .mobile-nav-pills {
+        display: flex;
+      }
+      .showcase-3d-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .showcase-card-3d {
+        padding: 14px;
+      }
+      .kpi-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .kpi-card-3d {
+        padding: 12px 14px;
+      }
+      .kpi-value {
+        font-size: 20px;
+      }
+      .kpi-icon-3d {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+      }
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+
+      /* Onglets mobiles : affichage exclusif sur petit écran */
+      body.tab-chat-active .mobile-panel-orders {
+        display: none !important;
+      }
+      body.tab-chat-active .mobile-panel-chat {
+        display: block !important;
+      }
+      body.tab-orders-active .mobile-panel-chat {
+        display: none !important;
+      }
+      body.tab-orders-active .mobile-panel-orders {
+        display: block !important;
+      }
+
+      /* Rendu WhatsApp optimisé et fluide sur téléphone */
+      .smartphone-3d-wrapper {
+        perspective: none !important;
+      }
+      .smartphone-3d {
+        transform: none !important;
+        border-radius: 20px;
+        padding: 6px;
+        border: 2px solid #334155;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      }
+      .phone-top-bar {
+        display: none;
+      }
+      .wa-screen {
+        height: calc(100vh - 220px);
+        min-height: 480px;
+        max-height: 720px;
+        border-radius: 16px;
+      }
+      .wa-header {
+        padding: 10px 12px;
+      }
+      .wa-chat-area {
+        padding: 12px 10px;
+        gap: 10px;
+      }
+      .wa-bubble-in, .wa-bubble-out {
+        font-size: 13.5px;
+        padding: 10px 14px;
+        max-width: 90%;
+        line-height: 1.5;
+        border-radius: 14px;
+      }
+      .wa-input-bar {
+        padding: 10px;
+        gap: 8px;
+      }
+      .wa-input-field {
+        font-size: 15px; /* Évite le zoom automatique sur iPhone Safari */
+        padding: 10px 14px;
+      }
+      .wa-send-btn {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        font-size: 16px;
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      .card-3d {
+        padding: 16px;
+        border-radius: 16px;
+        margin-bottom: 16px;
+      }
     }
 
     /* PRINT STYLES */
@@ -686,7 +840,7 @@
     }
   </style>
 </head>
-<body>
+<body class="tab-chat-active">
 
   <!-- PORTAIL D'AUTHENTIFICATION SÉCURISÉE (ADMIN OVERLAY) -->
   <div id="auth-overlay">
@@ -830,11 +984,21 @@
       </div>
     </div>
 
+    <!-- MOBILE NAVIGATION TABS (PILLS) -->
+    <div class="mobile-nav-pills no-print">
+      <button id="tab-btn-chat" class="mobile-tab-btn active" onclick="switchMobileTab('chat')">
+        💬 Discussion WhatsApp (Hicham)
+      </button>
+      <button id="tab-btn-orders" class="mobile-tab-btn" onclick="switchMobileTab('orders')">
+        📦 Commandes & Devis
+      </button>
+    </div>
+
     <!-- MAIN TWO COLUMN GRID -->
     <div class="content-grid">
       
       <!-- LEFT: ORDER FORM & TABLE -->
-      <div>
+      <div class="mobile-panel-orders">
         
         <!-- COMMANDE SIMULATEUR -->
         <div class="card-3d">
@@ -924,7 +1088,7 @@
       </div>
 
       <!-- RIGHT: SMARTPHONE WHATSAPP (3D CHASSIS) -->
-      <div>
+      <div class="mobile-panel-chat">
         
         <div class="card-3d" style="padding: 18px; margin-bottom: 16px; background: linear-gradient(145deg, #047857 0%, #064e3b 100%); color: white;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
@@ -1072,6 +1236,25 @@
     const tenantId = 'tenant_maroc_demo_01';
     let currentCustomerPhone = '+212661987654';
     let allOrders = [];
+
+    // ==========================================
+    // NAVIGATION MOBILE RESPONSIVE
+    // ==========================================
+    function switchMobileTab(tab) {
+      const btnChat = document.getElementById('tab-btn-chat');
+      const btnOrders = document.getElementById('tab-btn-orders');
+      if (tab === 'chat') {
+        document.body.classList.remove('tab-orders-active');
+        document.body.classList.add('tab-chat-active');
+        if (btnChat) btnChat.classList.add('active');
+        if (btnOrders) btnOrders.classList.remove('active');
+      } else {
+        document.body.classList.remove('tab-chat-active');
+        document.body.classList.add('tab-orders-active');
+        if (btnOrders) btnOrders.classList.add('active');
+        if (btnChat) btnChat.classList.remove('active');
+      }
+    }
 
     // ==========================================
     // AUTHENTIFICATION & SÉCURITÉ ADMIN
@@ -1424,10 +1607,11 @@
         </button>
       `;
       appendBubble('in', html);
-      if (window.innerWidth < 980) {
-        const phone = document.querySelector('.smartphone-3d');
-        if (phone) phone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (window.innerWidth <= 900) {
+        switchMobileTab('chat');
       }
+      const phone = document.querySelector('.smartphone-3d');
+      if (phone) phone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     async function clickWhatsAppButton(payload, customerName) {

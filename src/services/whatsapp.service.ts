@@ -22,7 +22,7 @@ export class WhatsAppService {
     // Message bilingue Darija / Français parfaitement adapté au e-commerce marocain
     const messageBody = 
 `Salam ${order.customerName} 👋
-Chokran 3la talab dialek men 3end *Casablanca Fashion Store* !
+Chokran 3la talab dialek men 3end *Easy Linge Kech* !
 
 📦 *Détails dial la commande:*
 ${itemsSummary}

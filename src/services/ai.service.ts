@@ -127,18 +127,19 @@ export class AiService {
         // Process the order
         const orderResult = this.handleCreateOrder(args, tenantId, customerPhone);
 
-        // Add function response to history (role must be 'model' with functionResponse)
-        session.history.push({
-          role: 'user' as any,
-          parts: [{ functionResponse: { name: 'create_order', response: orderResult } }] as any,
-        });
+        let replyText: string;
+        if (orderResult.success) {
+          const itemsSummary = (args.items || [])
+            .map((it: any) => `• ${it.quantity || 1}x ${it.productName || 'Article'} (${it.size || ''})`)
+            .join('\n');
 
-        // Get follow-up response from Gemini
-        const followUp = await this.callGeminiWithRetry(systemPrompt, session.history);
-        const followUpText = followUp?.text || `Commande confirmée ✅ Total: ${orderResult.totalHT} DH HT (${orderResult.totalTTC} DH TTC). Livraison sous 24h!`;
+          replyText = `Parfait ! Votre commande #${orderResult.orderId} est bien enregistrée en attente de préparation ✅\n\n📦 *Articles commandés :*\n${itemsSummary}\n\n💰 *Total :* ${orderResult.totalHT} DH HT (${orderResult.totalTTC} DH TTC)\n📍 *Livraison :* ${orderResult.city} (${args.deliveryAddress})\n\nNotre atelier à Marrakech s'occupe de la confection et préparation. Nous vous tiendrons informé dès la remise au transporteur ! 🌿`;
+        } else {
+          replyText = orderResult.message || `Merci de nous préciser votre quartier et adresse exacte pour que nous puissions valider votre commande.`;
+        }
 
-        session.history.push({ role: 'model', parts: [{ text: followUpText }] });
-        return { reply: followUpText, detectedAction: 'CONFIRM', orderData: orderResult };
+        session.history.push({ role: 'model', parts: [{ text: replyText }] });
+        return { reply: replyText, detectedAction: 'CONFIRM', orderData: orderResult };
       }
 
       // Normal text response
