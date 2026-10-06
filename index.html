@@ -702,22 +702,18 @@
       <form id="auth-form" onsubmit="handleLogin(event)">
         <div class="auth-input-group">
           <label>Identifiant Administrateur</label>
-          <input type="text" id="auth-username" class="auth-input" required autocomplete="username" placeholder="ex: hichamadmin267" value="hichamadmin267" />
+          <input type="text" id="auth-username" class="auth-input" required autocomplete="username" placeholder="Entrez votre identifiant" />
         </div>
 
         <div class="auth-input-group">
           <label>Mot de passe</label>
-          <input type="password" id="auth-password" class="auth-input" required autocomplete="current-password" placeholder="••••••••" value="admin2671" />
+          <input type="password" id="auth-password" class="auth-input" required autocomplete="current-password" placeholder="••••••••••••" />
         </div>
 
         <button type="submit" id="auth-submit-btn" class="auth-btn-3d">
           Accéder à la plateforme 🔐
         </button>
       </form>
-
-      <div class="auth-hint">
-        🔒 Accès sécurisé : <code>hichamadmin267</code> / <code>admin2671</code>
-      </div>
     </div>
   </div>
 
@@ -1083,6 +1079,10 @@
       if (token) {
         overlay.style.display = 'none';
       } else {
+        const u = document.getElementById('auth-username');
+        const p = document.getElementById('auth-password');
+        if (u) u.value = '';
+        if (p) p.value = '';
         overlay.style.display = 'flex';
       }
     }
@@ -1112,6 +1112,8 @@
         if (data.success && data.token) {
           localStorage.setItem('easy_linge_auth_token', data.token);
           localStorage.setItem('easy_linge_auth_user', JSON.stringify(data.user));
+          userField.value = '';
+          passField.value = '';
           document.getElementById('auth-overlay').style.display = 'none';
           loadData();
         } else {
@@ -1131,6 +1133,10 @@
       if (confirm('Voulez-vous vraiment vous déconnecter de la plateforme ?')) {
         localStorage.removeItem('easy_linge_auth_token');
         localStorage.removeItem('easy_linge_auth_user');
+        const u = document.getElementById('auth-username');
+        const p = document.getElementById('auth-password');
+        if (u) u.value = '';
+        if (p) p.value = '';
         checkAuth();
       }
     }
