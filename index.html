@@ -1118,6 +1118,9 @@
                   <div style="font-weight: 700; font-size: 12px; line-height: 1.2;">Easy Linge Kech</div>
                   <div style="font-size: 10px; opacity: 0.85;">Hicham • Service Commercial Pro</div>
                 </div>
+                <button onclick="resetChat(true)" style="background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; cursor: pointer; transition: background 0.2s;" title="Effacer la discussion et recommencer">
+                  🧹 Nouveau chat
+                </button>
               </div>
 
               <!-- WA CHAT AREA -->
@@ -1267,7 +1270,7 @@
         overlay.style.display = 'none';
         if (platform) platform.style.display = 'block';
         loadData();
-        loadChatHistory();
+        resetChat(false);
       } else {
         overlay.style.display = 'flex';
         if (platform) platform.style.display = 'none';
@@ -1308,7 +1311,7 @@
           document.getElementById('auth-overlay').style.display = 'none';
           document.getElementById('platform-content').style.display = 'block';
           loadData();
-          loadChatHistory();
+          resetChat(false);
         } else {
           errorMsg.innerText = data.error || 'Identifiants invalides';
           errorMsg.style.display = 'block';
@@ -1530,25 +1533,37 @@
       container.scrollTop = container.scrollHeight;
     }
 
-    async function loadChatHistory() {
+    async function resetChat(showNotice = false) {
       const container = document.getElementById('wa-messages');
+      container.innerHTML = `
+        <div style="text-align: center; margin: 6px 0;">
+          <span style="background: #fef3c7; color: #92400e; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 600;">
+            🔒 Canal officiel chiffré de bout en bout
+          </span>
+        </div>
+        <div class="wa-bubble-in">
+          Bonjour ! Je suis <b>Hicham</b> de chez <b>Easy Linge Kech</b> 🌿<br/>
+          Nous équipons les riads, hôtels, hébergements Airbnb et villas en linge de lit et de bain haut de gamme.<br/><br/>
+          <i>Comment puis-je vous accompagner pour vos approvisionnements aujourd'hui ?</i>
+        </div>
+      `;
+
       try {
-        const res = await fetch(`/api/chat/history/${tenantId}?phone=${encodeURIComponent(currentCustomerPhone)}`);
-        const data = await res.json();
-        if (data.success && data.messages && data.messages.length > 0) {
-          container.innerHTML = `
-            <div style="text-align: center; margin: 6px 0;">
-              <span style="background: #fef3c7; color: #92400e; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 600;">
-                🔒 Canal officiel chiffré de bout en bout
-              </span>
-            </div>
-          `;
-          data.messages.forEach(m => {
-            appendBubble(m.direction === 'INBOUND' ? 'out' : 'in', m.content.replace(/\n/g, '<br/>'));
-          });
-        }
+        await fetch('/api/chat/reset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ customerPhone: currentCustomerPhone })
+        });
       } catch (err) {
-        console.error('Erreur chargement messages:', err);
+        console.warn('Erreur reset session backend:', err);
+      }
+
+      if (showNotice) {
+        const notice = document.createElement('div');
+        notice.style.cssText = 'text-align: center; font-size: 11px; color: #047857; background: #ecfdf5; padding: 4px 8px; border-radius: 6px; margin: 4px auto; font-weight: 600; width: fit-content;';
+        notice.innerText = '✨ Nouvelle discussion démarrée';
+        container.appendChild(notice);
+        setTimeout(() => notice.remove(), 2500);
       }
     }
 

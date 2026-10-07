@@ -74,12 +74,8 @@ export class MemoryStore {
   }
 
   private saveMessagesToDisk() {
-    try {
-      this.ensureDataDir();
-      fs.writeFileSync(this.messagesFilePath, JSON.stringify(this.messageLogs.slice(-500), null, 2), 'utf-8');
-    } catch (err) {
-      console.error('[DB] Erreur sauvegarde messages sur disque:', err);
-    }
+    // Les messages ne sont pas persistés sur disque selon la demande utilisateur.
+    // Seules les commandes restent enregistrées durablement dans data/orders.json.
   }
 
   // Initialisation d'une boutique témoin marocaine

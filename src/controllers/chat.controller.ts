@@ -58,6 +58,18 @@ export class ChatController {
       return res.status(500).json({ success: false, error: 'Erreur récupération historique' });
     }
   }
+
+  async resetChatSession(req: Request, res: Response) {
+    try {
+      const { customerPhone } = req.body;
+      if (customerPhone) {
+        aiService.clearSession(customerPhone);
+      }
+      return res.json({ success: true, message: 'Session de chat réinitialisée' });
+    } catch (err: any) {
+      return res.status(500).json({ success: false, error: 'Erreur réinitialisation session' });
+    }
+  }
 }
 
 export const chatController = new ChatController();

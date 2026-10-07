@@ -29,10 +29,11 @@ export class AiService {
   private sessions: Map<string, ConversationSession> = new Map();
   private httpClient: AxiosInstance;
 
-  // Models to try in order
+  // Models to try in order — gemini-3.5-flash is ultra-stable and fast
   private readonly MODELS = [
+    'gemini-3.5-flash',
+    'gemini-flash-latest',
     'gemini-3.1-flash-lite',
-    'gemini-3.8-flash',
   ];
 
   // Session expiry: 30 minutes of inactivity
@@ -41,11 +42,8 @@ export class AiService {
   constructor() {
     this.apiKey = process.env.GEMINI_API_KEY || '';
 
-    // Persistent HTTP agent — reuse connections, avoid TLS handshake every time
     this.httpClient = axios.create({
-      httpAgent: new http.Agent({ keepAlive: true, maxSockets: 5 }),
-      httpsAgent: new https.Agent({ keepAlive: true, maxSockets: 5 }),
-      timeout: 15000, // 15 seconds — user prefers real answer over speed
+      timeout: 25000,
       headers: { 'Content-Type': 'application/json' },
     });
 
@@ -107,9 +105,9 @@ export class AiService {
     session.history.push({ role: 'user', parts: [{ text: trimmed }] });
     session.lastActivityMs = Date.now();
 
-    // Keep history manageable (last 20 turns = 40 messages)
-    if (session.history.length > 40) {
-      session.history = session.history.slice(-40);
+    // Keep history manageable and fast (last 6 turns = 12 messages)
+    if (session.history.length > 12) {
+      session.history = session.history.slice(-12);
     }
 
     // Call Gemini with retry across models
@@ -120,9 +118,6 @@ export class AiService {
       if (result.functionCall) {
         const { args } = result.functionCall;
         console.log('[AI] 🔔 FUNCTION CALL: create_order', JSON.stringify(args));
-
-        // Add function call to history — use rawParts to preserve thought_signature
-        session.history.push({ role: 'model', parts: result.rawParts || [{ functionCall: result.functionCall }] } as any);
 
         // Process the order
         const orderResult = this.handleCreateOrder(args, tenantId, customerPhone);
@@ -338,7 +333,8 @@ export class AiService {
         } catch (err: any) {
           const status = err?.response?.status;
           const code = err?.code;
-          console.warn(`[AI] ⚠️ ${model} attempt ${attempt}/3 failed: ${status || code || err.message}`);
+          const errMsg = err?.response?.data?.error?.message || err?.message;
+          console.warn(`[AI] ⚠️ ${model} attempt ${attempt}/3 failed: ${status || code || ''} - ${errMsg}`);
 
           // 404 = model not found, skip to next model immediately
           if (status === 404) break;
@@ -648,6 +644,11 @@ ${lines.join('\n')}
         this.sessions.delete(phone);
       }
     }
+  }
+
+  public clearSession(phone: string): void {
+    this.sessions.delete(phone);
+    console.log(`[AI] 🧹 Session en mémoire réinitialisée pour ${phone}`);
   }
 
   // ─── Emergency Fallback (ONLY when Gemini is 100% unreachable) ──────────
