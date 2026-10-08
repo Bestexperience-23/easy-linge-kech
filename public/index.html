@@ -657,12 +657,14 @@
       font-weight: 700;
       color: #047857;
       border: 1px solid #e2e8f0;
-    }
     .auth-error {
       color: #dc2626;
       font-size: 12px;
       font-weight: 700;
       margin-bottom: 12px;
+      display: none;
+    }
+
     /* ========================================================
        NAVIGATION & ADAPTATION MOBILE (RESPONSIVE FIRST)
        ======================================================== */
@@ -703,52 +705,51 @@
 
     @media (max-width: 900px) {
       .main-container {
-        padding: 0 12px;
-        margin: 12px auto;
+        padding: 0 10px;
+        margin: 10px auto;
       }
       .app-header {
-        padding: 12px;
+        padding: 10px 12px;
+      }
+      .brand-title {
+        font-size: 15px;
+      }
+      .badge-3d-gold {
+        display: none;
       }
       .brand-sub {
         display: none;
       }
       .admin-pill-3d {
-        padding: 4px 8px;
+        padding: 4px 10px;
         font-size: 11px;
+        gap: 6px;
       }
-      .mobile-nav-pills {
-        display: flex;
+      .admin-pill-3d span:nth-child(2) {
+        display: none;
       }
-      .showcase-3d-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        margin-bottom: 14px;
-      }
-      .showcase-card-3d {
-        padding: 14px;
-      }
-      .kpi-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-bottom: 14px;
-      }
-      .kpi-card-3d {
-        padding: 12px 14px;
-      }
-      .kpi-value {
-        font-size: 20px;
-      }
-      .kpi-icon-3d {
-        width: 38px;
-        height: 38px;
-        font-size: 18px;
-      }
-      .content-grid {
-        grid-template-columns: 1fr;
-        gap: 14px;
+      .btn-logout-3d {
+        padding: 4px 8px;
+        font-size: 10px;
       }
 
-      /* Onglets mobiles : affichage exclusif sur petit écran */
+      /* Onglets mobiles sticky */
+      .mobile-nav-pills {
+        display: flex;
+        position: sticky;
+        top: 8px;
+        z-index: 99;
+        margin-bottom: 12px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      }
+      .mobile-tab-btn {
+        padding: 9px 12px;
+        font-size: 12.5px;
+      }
+
+      /* Affichage exclusif selon l'onglet actif */
       body.tab-chat-active .mobile-panel-orders {
         display: none !important;
       }
@@ -762,61 +763,152 @@
         display: block !important;
       }
 
-      /* Rendu WhatsApp optimisé et fluide sur téléphone */
+      /* Rendu WhatsApp ultra-propre et natif sur mobile */
       .smartphone-3d-wrapper {
         perspective: none !important;
+        width: 100%;
       }
       .smartphone-3d {
         transform: none !important;
-        border-radius: 20px;
-        padding: 6px;
+        border-radius: 18px;
+        padding: 4px;
         border: 2px solid #334155;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
       }
       .phone-top-bar {
         display: none;
       }
+      .mobile-intro-card {
+        display: none !important;
+      }
       .wa-screen {
-        height: calc(100vh - 220px);
+        height: calc(100vh - 130px);
+        height: calc(100dvh - 130px);
         min-height: 480px;
-        max-height: 720px;
-        border-radius: 16px;
+        max-height: calc(100dvh - 110px);
+        border-radius: 14px;
       }
       .wa-header {
-        padding: 10px 12px;
+        padding: 8px 12px;
+      }
+      .wa-avatar {
+        width: 34px;
+        height: 34px;
+        font-size: 12px;
       }
       .wa-chat-area {
-        padding: 12px 10px;
-        gap: 10px;
+        padding: 10px 8px;
+        gap: 8px;
       }
       .wa-bubble-in, .wa-bubble-out {
         font-size: 13.5px;
-        padding: 10px 14px;
-        max-width: 90%;
-        line-height: 1.5;
+        padding: 9px 12px;
+        max-width: 88%;
+        line-height: 1.45;
         border-radius: 14px;
       }
+      .wa-bubble-in {
+        border-top-left-radius: 2px;
+      }
+      .wa-bubble-out {
+        border-top-right-radius: 2px;
+      }
       .wa-input-bar {
-        padding: 10px;
+        padding: 8px 10px;
         gap: 8px;
+        background: #f0f2f5;
       }
       .wa-input-field {
-        font-size: 15px; /* Évite le zoom automatique sur iPhone Safari */
-        padding: 10px 14px;
+        font-size: 16px; /* Empêche le zoom auto d'iOS */
+        padding: 9px 14px;
+        border-radius: 20px;
       }
       .wa-send-btn {
-        width: 42px;
-        height: 42px;
-        min-width: 42px;
-        font-size: 16px;
+        width: 38px;
+        height: 38px;
+        min-width: 38px;
+        font-size: 15px;
       }
-      .form-grid {
+
+      /* Commandes & Tableau sur Mobile */
+      .showcase-3d-grid {
         grid-template-columns: 1fr;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .showcase-card-3d {
+        padding: 14px;
+        transform: none !important;
+      }
+      .showcase-card-3d:hover {
+        transform: none !important;
+      }
+      .kpi-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .kpi-card-3d {
+        padding: 12px;
+        transform: none !important;
+      }
+      .kpi-value {
+        font-size: 18px;
+      }
+      .kpi-icon-3d {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+      }
+      .content-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
       }
       .card-3d {
         padding: 16px;
         border-radius: 16px;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+      }
+      .form-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      input, select {
+        font-size: 15px;
+        padding: 10px 12px;
+      }
+      table {
+        min-width: 720px;
+      }
+
+      /* Auth modal sur mobile */
+      .auth-card-3d {
+        padding: 24px 18px;
+        border-radius: 20px;
+        transform: none !important;
+      }
+      .auth-title {
+        font-size: 18px;
+      }
+      .auth-input {
+        font-size: 16px;
+      }
+
+      /* Modal Devis / Facture sur mobile */
+      #invoice-modal {
+        padding: 8px !important;
+      }
+      #printable-invoice {
+        padding: 16px !important;
+        border-radius: 14px !important;
+      }
+      .inv-info-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
       }
     }
 
@@ -901,8 +993,18 @@
 
   <div class="main-container">
 
+    <!-- MOBILE NAVIGATION TABS (PILLS) -->
+    <div class="mobile-nav-pills no-print">
+      <button id="tab-btn-chat" class="mobile-tab-btn active" onclick="switchMobileTab('chat')">
+        💬 Discussion WhatsApp (Hicham)
+      </button>
+      <button id="tab-btn-orders" class="mobile-tab-btn" onclick="switchMobileTab('orders')">
+        📦 Commandes & Devis
+      </button>
+    </div>
+
     <!-- 3D TEXTILE SHOWCASE BANNER -->
-    <div class="showcase-3d-grid">
+    <div class="showcase-3d-grid mobile-panel-orders">
       <div class="showcase-card-3d">
         <div>
           <span class="showcase-badge-3d" style="background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0;">🛏️ Literie 5 Étoiles</span>
@@ -944,7 +1046,7 @@
     </div>
 
     <!-- KPI STATS -->
-    <div class="kpi-grid">
+    <div class="kpi-grid mobile-panel-orders">
       <div class="kpi-card-3d">
         <div>
           <div class="kpi-title">Total Commandes</div>
@@ -982,16 +1084,6 @@
         </div>
         <div class="kpi-icon-3d">⏳</div>
       </div>
-    </div>
-
-    <!-- MOBILE NAVIGATION TABS (PILLS) -->
-    <div class="mobile-nav-pills no-print">
-      <button id="tab-btn-chat" class="mobile-tab-btn active" onclick="switchMobileTab('chat')">
-        💬 Discussion WhatsApp (Hicham)
-      </button>
-      <button id="tab-btn-orders" class="mobile-tab-btn" onclick="switchMobileTab('orders')">
-        📦 Commandes & Devis
-      </button>
     </div>
 
     <!-- MAIN TWO COLUMN GRID -->
@@ -1090,7 +1182,7 @@
       <!-- RIGHT: SMARTPHONE WHATSAPP (3D CHASSIS) -->
       <div class="mobile-panel-chat">
         
-        <div class="card-3d" style="padding: 18px; margin-bottom: 16px; background: linear-gradient(145deg, #047857 0%, #064e3b 100%); color: white;">
+        <div class="card-3d mobile-intro-card" style="padding: 18px; margin-bottom: 16px; background: linear-gradient(145deg, #047857 0%, #064e3b 100%); color: white;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <b style="font-size: 14px; font-weight: 800;">Assistant Virtuel Hicham</b>
             <span style="background: rgba(255,255,255,0.2); font-size: 10px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">IA WhatsApp</span>
@@ -1174,7 +1266,7 @@
         </div>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #f8fafc; padding: 14px; border-radius: 10px; margin-bottom: 18px; font-size: 12px; border: 1px solid #e2e8f0;">
+      <div class="inv-info-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; background: #f8fafc; padding: 14px; border-radius: 10px; margin-bottom: 18px; font-size: 12px; border: 1px solid #e2e8f0;">
         <div>
           <div style="font-size: 10px; text-transform: uppercase; font-weight: 700; color: #64748b; margin-bottom: 4px;">CLIENT / ÉTABLISSEMENT</div>
           <div id="inv-customer-name" style="font-weight: 700; font-size: 14px; color: #0f172a;">—</div>
@@ -1189,17 +1281,19 @@
         </div>
       </div>
 
-      <table style="width: 100%; border-collapse: collapse; margin-bottom: 18px; font-size: 12px;">
-        <thead>
-          <tr style="background: #f1f5f9; text-align: left; border-bottom: 2px solid #cbd5e1;">
-            <th style="padding: 8px 10px;">Désignation Produit</th>
-            <th style="padding: 8px 10px; text-align: center;">Quantité</th>
-            <th style="padding: 8px 10px; text-align: right;">Prix Unit. HT</th>
-            <th style="padding: 8px 10px; text-align: right;">Total HT</th>
-          </tr>
-        </thead>
-        <tbody id="inv-items-tbody"></tbody>
-      </table>
+      <div style="overflow-x: auto; margin-bottom: 18px;">
+        <table style="width: 100%; min-width: 440px; border-collapse: collapse; font-size: 12px;">
+          <thead>
+            <tr style="background: #f1f5f9; text-align: left; border-bottom: 2px solid #cbd5e1;">
+              <th style="padding: 8px 10px;">Désignation Produit</th>
+              <th style="padding: 8px 10px; text-align: center;">Quantité</th>
+              <th style="padding: 8px 10px; text-align: right;">Prix Unit. HT</th>
+              <th style="padding: 8px 10px; text-align: right;">Total HT</th>
+            </tr>
+          </thead>
+          <tbody id="inv-items-tbody"></tbody>
+        </table>
+      </div>
 
       <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
         <div style="width: 260px; font-size: 12px; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
